@@ -1,26 +1,26 @@
-#include <spdlog/spdlog.h>
-#include <archive.h>
+#include <iostream>
 #include <memory>
 #include "File.h"
 #include <string>
 #include "exit_codes.hpp"
+#include <spdlog/spdlog.h>
+#include <archive.h>
+extern const int BLOCK_SIZE;
 
 namespace wrappers
 {
     namespace file
     {
-        File::File(std::string filename) : file_suport({"tar","zip"})
+        File::File(std::string filename)
         {
-            file_stream = std::make_unique<std::fstream>(filename);
+            this->filename = filename;
+            this->file_stream = std::make_unique<std::fstream>(filename,std::ios::binary);
         }
-        std::string File::filetype(std::string filename)
+        std::string File::filetype()
         {
             return "";
         }
-        int File::get_exit_code()
-        {
-            return EXIT_CODE::SUCCESS;
-        }
+
 
         int File::extract_tarball(std::string filename,std::string output_dir)
         {
@@ -39,6 +39,11 @@ namespace wrappers
             }
 
             return EXIT_CODE::SUCCESS;
+        }
+
+        int File::get_exit_code()
+        {
+            return 0;
         }
 
         int File::read_file()

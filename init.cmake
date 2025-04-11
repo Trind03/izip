@@ -42,4 +42,5 @@ include_directories(${COMP_CMAKE_SOURCE})
 
 
 # Direct compiler options.
+
 add_compile_options("-std=c++20")
