@@ -1,0 +1,58 @@
+include:
+  - project: 'trinde03/templates'
+    ref: 'dev1'
+    file: '.base.yml'
+
+variables:
+  CMAKE_BUILD_DIR: "./build"
+  CACHE_PATH: $CMAKE_BUILD_DIR
+  CMAKE_PRE_BUILD_CMD:          "cmake -S . -B $CACHE_PATH"
+  CMAKE_BUILD_Debug_CMD:        "cmake --build $CACHE_PATH --config Debug"
+  CMAKE_BUILD_Release_CMD:      "cmake --build $CACHE_PATH --config Release"
+  DEPEND: "g++ gcc cmake make git"
+
+stages:
+    - Initialize
+    - build
+    - test
+    - compliance
+
+Debug:
+  stage: "build"
+  extends:
+    - ".base-ci"
+    - ".install-dependanies"
+
+  script:
+    - $CMAKE_PRE_BUILD_CMD
+    - $CMAKE_BUILD_Debug_CMD
+    - $CMAKE_BUILD_Release_CMD
+
+Release:
+  stage: "build"
+  extends:
+    - ".base-ci"
+    - ".install-dependanies"
+
+  script:
+    - $CMAKE_PRE_BUILD_CMD
+    - $CMAKE_BUILD_Debug_CMD
+    - $CMAKE_BUILD_Release_CMD
+
+unit-test:
+  stage: test
+  extends:
+    - ".base-ci"
+    - ".install-dependanies"
+  
+  script:
+    - "$CACHE_PATH/test"
+
+  artifacts:
+    untracked: false
+    when: on_success
+    access: all
+    expire_in: 30 days
+    paths:
+      - "$CACHE_PATH/izip"
+      - "$CACHE_PATH/test"
