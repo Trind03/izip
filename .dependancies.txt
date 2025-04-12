@@ -1,7 +1,0 @@
-##### izip build dependancies. #####
-
-spdlog
-fmt
-cli11
-libarchive
-Gtest / googletest
