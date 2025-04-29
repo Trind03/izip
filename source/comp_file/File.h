@@ -20,9 +20,11 @@ namespace wrappers
             int write_file_to_disk(struct archive* myarchive) override;
             int get_exit_code() override;
             ~File() override = default;
+
             std::unique_ptr<std::fstream> file_stream = nullptr;
             std::string filename = "";
             std::vector<char> m_data();
+            int exit_code;
         };
     }
 }

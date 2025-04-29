@@ -12,14 +12,13 @@ namespace wrappers
 {
     namespace file
     {
-        File::File()
+        File::File() : exit_code(0)
         {
-
         }
 
         int File::get_exit_code()
-        {
-            return 0;
+        {    
+            return exit_code;
         }
     }
 }
