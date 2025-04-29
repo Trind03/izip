@@ -21,6 +21,5 @@ namespace app
         const char* version                         = nullptr;
         std::unique_ptr<help::Ihelp> Help_menu      = nullptr;
         std::unique_ptr<wrappers::file::IFile> File = nullptr;
-        std::string filename = "";
     };
 }

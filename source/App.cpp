@@ -1,4 +1,3 @@
-#include <iostream>
 #include "exit_codes.hpp"
 #include <spdlog/spdlog.h>
 #include "Help.h"
@@ -9,7 +8,13 @@ namespace app
     int App::start(int argc,char **argv)
     {
         CLI11_PARSE(*Arg_parser,argc,Arg_parser->ensure_utf8(argv));
-        std::cout << filename << std::endl;
+
+        if(comp_file->filename.c_str())
+        {
+            spdlog::info(fmt::format("detected file: {}",comp_file->filename.c_str()));
+            comp_file->read_load_archive(comp_file->filename.c_str());
+        }
+
         return exit_code;
     }
 
@@ -20,6 +25,6 @@ namespace app
 
     void App::message()
     {
-        //spdlog::info();
+        spdlog::info("Message function in App class.");
     }
 }

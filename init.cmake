@@ -9,16 +9,20 @@ set(SOURCES
     ${SOURCE_DIR}/Appctor.cpp
     ${SOURCE_DIR}/comp_file/File.cpp
     ${SOURCE_DIR}/comp_help/Help.cpp
+    ${SOURCE_DIR}/comp_file/archive_computation.cpp
 )
 
 set(TEST_SOURCES
     ${TEST_DIR}/main.cpp
     ${SOURCE_DIR}/comp_help/Help.cpp
-    ${TEST_DIR}/comp_help/param_help_descriptors.cpp
-    ${TEST_DIR}/comp_help/param_descriptor.cpp
-    ${TEST_DIR}/comp_help/general_message.cpp
+    ${TEST_DIR}/comp_help/descriptors/param_help_descriptors.cpp
+    ${TEST_DIR}/comp_help/descriptors/param_descriptor.cpp
+    ${TEST_DIR}/comp_help/descriptors/general_message.cpp
 
 )
+
+
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/test
     ${SOURCE_DIR}/comp_help
