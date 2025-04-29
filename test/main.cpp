@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "comp_help/param_help_descriptors.h"
-#include "comp_help/general_message.h"
+#include "comp_help/descriptors/param_help_descriptors.h"
+#include "comp_help/descriptors/general_message.h"
 
 int main(int argc,char** argv)
 {
