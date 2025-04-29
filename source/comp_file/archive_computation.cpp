@@ -33,6 +33,7 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
 
     s_archive         = archive_read_new ();
     processed_archive = archive_write_disk_new();
+    s_archive_entry   = render_archive_entry();
 
     archive_read_support_format_all(s_archive);
     archive_read_support_filter_all(s_archive);
