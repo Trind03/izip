@@ -12,9 +12,9 @@ namespace help
     {
     public:
         Help() = default;
-        std::string param_message_descriptor(int selector) override;
-        std::string param_view_descriptor(int selector)   override;
-        std::string general_message_descriptor(int selector) override;
+        std::string param_message_descriptor(std::size_t selector) override;
+        std::string param_view_descriptor(std::size_t selector)   override;
+        std::string general_message_descriptor(std::size_t selector) override;
     protected:
         const std::array<const char*, COMMON_SIZE> PARAM_MESSAGE_DESCRIPTOR =
         {
