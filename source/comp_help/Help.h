@@ -2,36 +2,41 @@
 #include <array>
 #include "Ihelp.h"
 
-constexpr int COMMON_SIZE   = 3;
-constexpr int GENERALL_SIZE = 1;
+constexpr int PARAM_LENGTH   = 6;
+constexpr int GENERAL_SIZE = 1;
 
-
-namespace help
+namespace Izip::Wrappers::CompHelp
 {
-    class Help : public help::Ihelp
+    class Help : public Ihelp
     {
     public:
         Help() = default;
-        std::string param_message_descriptor(std::size_t selector) override;
-        std::string param_view_descriptor(std::size_t selector)   override;
+        std::string param_message_descriptor(std::size_t selector)   override;
+        std::string param_symbol_descriptor(std::size_t selector)    override;
         std::string general_message_descriptor(std::size_t selector) override;
-    protected:
-        const std::array<const char*, COMMON_SIZE> PARAM_MESSAGE_DESCRIPTOR =
+
+        const std::array<const char*, PARAM_LENGTH> PARAM_MESSAGE_DESCRIPTOR =
         {
             "Returns the current release build version.",
-            "Takes file-path / filename for compression",
-            "prints spesified input string, to test basic io functionality.",
+            "Takes file-path/filename for decompression",
+            "Takes file-path/filename for compression",
+            "Processes archives recursively such as feks folders.",
+            "Spesify file permssions for output file. Default: 700",
+            "Selection of algorithms."
         };
 
-        const std::array<const char*, COMMON_SIZE> PARAM_DESCRIPTOR =
+        const std::array<const char*, PARAM_LENGTH> PARAM_DESCRIPTOR =
         {
             "-v, --verison",
-            "-f, --file",
-            "-p, --print",
+            "-d, --decompress",
+            "-c, --compress",
+            "-r, --recursive",
+            "-p, --permissions",
+            "-a, --algorithm"
 
         };
 
-        const std::array<const char*,GENERALL_SIZE> GENERAL_MESSAGE =
+        const std::array<const char*,GENERAL_SIZE> GENERAL_MESSAGE =
         {
             "Ligth-weigth program for compressing and uncompressing zip and tarball files."
         };

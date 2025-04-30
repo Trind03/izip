@@ -1,11 +1,12 @@
 #include <spdlog/spdlog.h>
-#include <fmt/core.h>
 #include <archive.h>
 #include <archive_entry.h>
 #include "File.h"
-#include "exit_codes.hpp"
+#include "universal/exit_codes.hpp"
 
-archive_entry* wrappers::file::File::render_archive_entry()
+
+archive_entry*
+Izip::Wrappers::CompFile::File::render_archive_entry()
 {
     struct archive_entry* p_archive_entry;
 
@@ -13,91 +14,111 @@ archive_entry* wrappers::file::File::render_archive_entry()
     archive_entry_set_pathname(p_archive_entry,this->filename.c_str());
 
     return p_archive_entry;
-
 }
 
-archive* wrappers::file::File::read_load_archive(const char* filename)
+
+
+int
+Izip::Wrappers::CompFile::File::decompress_archive(std::string_view filename)
 {
-    int status_code = 0;
+    constexpr int EXPRECTED_BLOCK_SIZE = 128;
+    int status_code = Izip::Universal::EXIT_CODE::SUCCESS;
     int flags       = 0;
 
-    flags =  ARCHIVE_EXTRACT_TIME;
+    flags  = ARCHIVE_EXTRACT_TIME;
     flags |= ARCHIVE_EXTRACT_ACL;
     flags |= ARCHIVE_EXTRACT_PERM;
     flags |= ARCHIVE_EXTRACT_FFLAGS;
 
-    struct archive_entry* s_archive_entry;
+    struct archive_entry* current_archive_entry;
     struct archive* processed_archive;
-    struct archive* s_archive;
-    spdlog::info("extracting archive");
+    struct archive* current_archive;
 
-    s_archive         = archive_read_new ();
-    processed_archive = archive_write_disk_new();
-    s_archive_entry   = render_archive_entry();
+    spdlog::debug("Initializing handler");
 
-    archive_read_support_format_all(s_archive);
-    archive_read_support_filter_all(s_archive);
+    current_archive         = archive_read_new();
+    processed_archive       = archive_write_disk_new();
+    current_archive_entry   = render_archive_entry();
+
+    spdlog::debug("archive handlers initialized!");
+
+    archive_read_support_format_all(current_archive);
+    archive_read_support_filter_all(current_archive);
 
     archive_write_disk_set_options(processed_archive,flags);
     archive_write_disk_set_standard_lookup(processed_archive);
 
-    if ((status_code = archive_read_open_filename(s_archive, filename, 10240)))
+
+    if (archive_read_open_filename(current_archive, filename.data(), EXPRECTED_BLOCK_SIZE) == ARCHIVE_OK)
+        spdlog::info("File opened successfully!");
+
+    else
     {
-        spdlog::info("failed to open archive");
-        return nullptr;
+        spdlog::error("failed to open archive, perhaps files doesnt exist or blocking file permissions.");
+        return status_code;
     }
 
-    for (;;) {
-        status_code = archive_read_next_header(s_archive, &s_archive_entry);
+    spdlog::info("Processing supplied file!");
+
+    for(;;)
+    {
+        status_code = archive_read_next_header(current_archive, &current_archive_entry);
+        if (status_code != ARCHIVE_OK)
+            InteroptHandler("Failure to read archive header, removing garbage",pathname);
+        pathname = archive_entry_pathname(current_archive_entry);
+        archive_type = archive_entry_filetype(current_archive_entry);
+
+
         if (status_code == ARCHIVE_EOF)
+        {
+            spdlog::info("Processing finished.");
             break;
+        }
 
         if (status_code < ARCHIVE_OK)
         {
-            spdlog::info("NOK!");
+            spdlog::warn("NOK!");
         }
 
         if (status_code < ARCHIVE_WARN)
         {
             spdlog::warn("exited with warnings");
-            return nullptr;
+            return status_code;
         }
 
-        status_code = archive_write_header(processed_archive, s_archive_entry);
-        if (status_code < ARCHIVE_OK)
-        {
+        exit_code = archive_write_header(processed_archive,current_archive_entry);
+
+        if(exit_code != Izip::Universal::EXIT_CODE::SUCCESS)
+            spdlog::error("Unknown issue writing to iterative chunk to disk.");
+
+
+        if (exit_code < ARCHIVE_OK)
             spdlog::warn("Less then ok ;<");
+
+        else if (archive_entry_size(current_archive_entry) > 0)
+        {
+            exit_code = copy_data(current_archive,processed_archive);
+
+            if (exit_code < ARCHIVE_OK)
+                spdlog::error("some error");
+
+            if (exit_code < ARCHIVE_WARN)
+                return status_code;
         }
 
-        // else if (archive_entry_size(s_archive_entry) > 0)
-        // {
-        //     status_code = copy_data(a, ext);
+        exit_code = archive_write_finish_entry(processed_archive);
 
-        //     if (status_code < ARCHIVE_OK)
-        //         fprintf(stderr, "%s\n", archive_error_string(ext));
+        if(exit_code != Izip::Universal::EXIT_CODE::SUCCESS)
+            spdlog::error("Unknown issue finishing up, in last iteration");
 
-        //     if (status_code < ARCHIVE_WARN)
-        //         return 1;
-        // }
-
-        status_code = archive_write_finish_entry(processed_archive);
-        if (status_code < ARCHIVE_OK)
-            spdlog::warn("NOK!");
-
-        if (status_code < ARCHIVE_WARN)
-            return nullptr;
+        return status_code;
     }
-    archive_read_close(s_archive);
-    archive_read_free(s_archive);
-        /*
-        archive_write_close(s_archive_entry);
-        archive_write_free(s_archive_entry);
-        */
 
-    return processed_archive;
-}
+    archive_read_close(current_archive);
+    archive_read_free(current_archive);
+    archive_write_close(processed_archive);
+    archive_write_free(processed_archive);
 
-int wrappers::file::File::write_file_to_disk(struct archive* myarchive)
-{
-    return EXIT_CODE::SUCCESS;
+
+    return status_code;
 }

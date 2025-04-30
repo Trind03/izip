@@ -1,4 +1,6 @@
-namespace EXIT_CODE
+#pragma once
+
+namespace Izip::Universal
 {
     enum EXIT_CODE
     {
@@ -9,5 +11,6 @@ namespace EXIT_CODE
         INVLAID_FILE = 137,
 
         OUT_OF_BOUND = 120,
+        REMOVAL_DIR_ERROR = 125,
     };
 }

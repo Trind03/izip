@@ -1,0 +1,24 @@
+name: CMake on a single platform
+
+on:
+  - pull_request
+  - push
+
+env:
+  BUILD_TYPE: Debug
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: configurating_dependencies
+      run: git submodule update --init --recursive
+
+    - name: Generate_project_files
+      run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build
+
