@@ -8,6 +8,17 @@
 #include <stdio.h>
 
 
+int wrappers::file::File::write_file_to_disk(struct archive* myarchive,struct archive_entry* myarchive_entry)
+{
+    int status_code = EXIT_CODE::SUCCESS;
+
+    status_code = archive_write_header(myarchive,myarchive_entry);
+
+    return status_code;
+}
+
+
+
 archive_entry* wrappers::file::File::render_archive_entry()
 {
     struct archive_entry* p_archive_entry;
@@ -24,7 +35,7 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
     int status_code = 0;
     int flags       = 0;
 
-    flags =  ARCHIVE_EXTRACT_TIME;
+    flags  = ARCHIVE_EXTRACT_TIME;
     flags |= ARCHIVE_EXTRACT_ACL;
     flags |= ARCHIVE_EXTRACT_PERM;
     flags |= ARCHIVE_EXTRACT_FFLAGS;
@@ -55,9 +66,11 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
     {
         status_code = archive_read_next_header(current_archive, &current_archive_entry);
 
-        if (status_code == ARCHIVE_EOF)
+        if (status_code == 0)
+        {
             fmt::print("{}",archive_error_string(current_archive));
             break;
+        }
 
         if (status_code < ARCHIVE_OK)
         {
@@ -91,12 +104,11 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
 
         if (status_code < ARCHIVE_WARN)
             return nullptr;
-
     }
 
-    if(!(std::filesystem::file_size(filename) > 0))
+
+    if(status_code != 0)
     {
-        status_code = 1;
         spdlog::error("Failure to write extracted element to disk :<");
     }
 
@@ -111,18 +123,4 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
     }
 
     return processed_archive;
-}
-
-int wrappers::file::File::write_file_to_disk(struct archive* myarchive,struct archive_entry* entry)
-{
-    int status_code = EXIT_CODE::SUCCESS;
-
-    status_code = archive_write_header(myarchive,entry);
-    if (status_code != EXIT_CODE::SUCCESS)
-    {
-        spdlog::info("error");
-    }
-    //status_code = archive_write_data();
-
-    return status_code;
 }
