@@ -61,10 +61,14 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
         spdlog::info("failed to open archive");
         return nullptr;
     }
+    int size = 0;
 
     for(;;)
     {
-        status_code = archive_read_next_header(current_archive, &current_archive_entry);
+        //status_code = archive_read_next_header(current_archive, &current_archive_entry);
+        size = archive_read_data(a, buff, buffsize);
+        if (size == 0)
+            break;
 
         if (status_code != ARCHIVE_OK)
         {
@@ -83,7 +87,7 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
             return nullptr;
         }
 
-        status_code = write_file_to_disk(processed_archive,current_archive_entry);
+        //status_code = write_file_to_disk(processed_archive,current_archive_entry);
         if (status_code < ARCHIVE_OK)
         {
             spdlog::warn("Less then ok ;<");
@@ -104,6 +108,8 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
 
         if (status_code < ARCHIVE_WARN)
             return nullptr;
+
+        write(current_archive,m_data,this->m_data.size());
     }
 
 
