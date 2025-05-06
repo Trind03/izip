@@ -23,7 +23,7 @@ namespace wrappers
 
             std::unique_ptr<std::fstream> file_stream = nullptr;
             std::string filename = "";
-            std::vector<char> m_data();
+            std::vector<char> m_data;
             int exit_code;
         };
     }
