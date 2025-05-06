@@ -67,9 +67,6 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
     {
         status_code = archive_read_next_header(current_archive, &current_archive_entry);
 
-        if (size == 0)
-            break;
-
         if (status_code != ARCHIVE_OK)
         {
             fmt::print("{}",archive_error_string(current_archive));
