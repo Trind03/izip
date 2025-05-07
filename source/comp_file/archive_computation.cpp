@@ -56,7 +56,7 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
     archive_write_disk_set_options(processed_archive,flags);
     archive_write_disk_set_standard_lookup(processed_archive);
 
-    if (archive_read_open_filename(current_archive, filename, 10240) != ARCHIVE_OK)
+    if (archive_read_open_filename(current_archive, filename, 10000) != ARCHIVE_OK)
     {
         spdlog::info("failed to open archive");
         return nullptr;
@@ -65,11 +65,11 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
 
     for(;;)
     {
-        status_code = archive_read_next_header(current_archive, &current_archive_entry);
+        int status = archive_read_next_header(current_archive, &current_archive_entry);
 
-        if (status_code != ARCHIVE_OK)
+        if (status == ARCHIVE_EOF)
         {
-            spdlog::error("Unknown error.");
+            spdlog::info("End of archive");
             break;
         }
 
@@ -108,8 +108,7 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
         if (status_code < ARCHIVE_WARN)
             return nullptr;
         status_code = archive_write_finish_entry(processed_archive);
-
-
+    }
 
     if(status_code != 0)
     {
@@ -117,15 +116,13 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
     }
 
 
-    if (status_code == ARCHIVE_OK)
-    {
+    if (status_code != ARCHIVE_OK)
         spdlog::error("Files could't be written to disk due to unknown extraction error");
-        archive_read_close(current_archive);
-        archive_read_free(current_archive);
-        archive_write_close(processed_archive);
-        archive_write_free(processed_archive);
-    }
-    }
+
+    archive_read_close(current_archive);
+    archive_read_free(current_archive);
+    archive_write_close(processed_archive);
+    archive_write_free(processed_archive);
 
     return processed_archive;
 }
