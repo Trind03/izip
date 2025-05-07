@@ -5,21 +5,10 @@
 #include "File.h"
 #include "exit_codes.hpp"
 #include <filesystem>
-#include <stdio.h>
 
 
-int wrappers::file::File::write_file_to_disk(struct archive* myarchive,struct archive_entry* myarchive_entry)
-{
-    int status_code = EXIT_CODE::SUCCESS;
-
-    status_code = archive_write_header(myarchive,myarchive_entry);
-
-    return status_code;
-}
-
-
-
-archive_entry* wrappers::file::File::render_archive_entry()
+archive_entry* wrappers::file::File::
+    render_archive_entry()
 {
     struct archive_entry* p_archive_entry;
 
@@ -27,11 +16,13 @@ archive_entry* wrappers::file::File::render_archive_entry()
     archive_entry_set_pathname(p_archive_entry,this->filename.c_str());
 
     return p_archive_entry;
-
 }
 
-archive* wrappers::file::File::read_load_archive(const char* filename)
+
+
+int wrappers::file::File::decompress_archive(const char* filename)
 {
+    constexpr int EXPRECTED_BLOCK_SIZE = 128;
     int status_code = 0;
     int flags       = 0;
 
@@ -44,11 +35,13 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
     struct archive* processed_archive;
     struct archive* current_archive;
 
-    spdlog::info("extracting archive");
+    spdlog::debug("Initializing handler");
 
     current_archive         = archive_read_new();
     processed_archive       = archive_write_disk_new();
     current_archive_entry   = render_archive_entry();
+
+    spdlog::debug("archive handlers initialized!");
 
     archive_read_support_format_all(current_archive);
     archive_read_support_filter_all(current_archive);
@@ -56,12 +49,17 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
     archive_write_disk_set_options(processed_archive,flags);
     archive_write_disk_set_standard_lookup(processed_archive);
 
-    if (archive_read_open_filename(current_archive, filename, 10000) != ARCHIVE_OK)
+    if (archive_read_open_filename(current_archive, filename, EXPRECTED_BLOCK_SIZE) != ARCHIVE_OK)
     {
-        spdlog::info("failed to open archive");
-        return nullptr;
+        spdlog::info("failed to open archive, perhaps files doesnt exist or blocking file permissions.");
+        return status_code;
+    }
+    else
+    {
+        spdlog::info("File opened successfully!");
     }
 
+    spdlog::info("Processing supplied file");
 
     for(;;)
     {
@@ -69,7 +67,7 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
 
         if (status == ARCHIVE_EOF)
         {
-            spdlog::info("End of archive");
+            spdlog::info("Processing finished.");
             break;
         }
 
@@ -81,33 +79,43 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
         if (status_code < ARCHIVE_WARN)
         {
             spdlog::warn("exited with warnings");
-            return nullptr;
+            return status_code;
         }
 
-        //status_code = write_file_to_disk(processed_archive,current_archive_entry);
-        status_code  = archive_write_header(processed_archive,current_archive_entry);
-        if (status_code < ARCHIVE_OK)
-        {
+        exit_code = archive_write_header(processed_archive,current_archive_entry);
+
+        if(exit_code != EXIT_CODE::SUCCESS)
+            spdlog::error("Unknown issue writing to iterative chunk to disk.");
+
+
+        if (exit_code < ARCHIVE_OK)
             spdlog::warn("Less then ok ;<");
-        }
 
         else if (archive_entry_size(current_archive_entry) > 0)
         {
-            status_code = copy_data(current_archive,processed_archive);
+            exit_code = copy_data(current_archive,processed_archive);
 
-            if (status_code < ARCHIVE_OK)
+            if (exit_code < ARCHIVE_OK)
                 spdlog::error("some error");
 
-            if (status_code < ARCHIVE_WARN)
-                return nullptr;
+            if (exit_code < ARCHIVE_WARN)
+                return status_code;
         }
+
+
+        exit_code = archive_write_finish_entry(processed_archive);
+
+        if(exit_code != EXIT_CODE::SUCCESS)
+            spdlog::error("Unknown issue finishing up, in last iteration");
+
+        return status_code;
 
         if (status_code < ARCHIVE_OK)
             spdlog::warn("NOK!");
 
         if (status_code < ARCHIVE_WARN)
-            return nullptr;
-        status_code = archive_write_finish_entry(processed_archive);
+            return status_code;
+
     }
 
     if(status_code != 0)
@@ -124,5 +132,5 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
     archive_write_close(processed_archive);
     archive_write_free(processed_archive);
 
-    return processed_archive;
+    return status_code;
 }
