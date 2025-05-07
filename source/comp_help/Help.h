@@ -5,7 +5,6 @@
 constexpr int PARAM_LENGTH   = 5;
 constexpr int GENERALL_SIZE = 1;
 
-
 namespace help
 {
     class Help : public help::Ihelp
@@ -13,9 +12,9 @@ namespace help
     public:
         Help() = default;
         std::string param_message_descriptor(std::size_t selector) override;
-        std::string param_view_descriptor(std::size_t selector)   override;
+        std::string param_symbol_descriptor(std::size_t selector)   override;
         std::string general_message_descriptor(std::size_t selector) override;
-    protected:
+
         const std::array<const char*, PARAM_LENGTH> PARAM_MESSAGE_DESCRIPTOR =
         {
             "Returns the current release build version.",
