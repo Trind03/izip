@@ -11,7 +11,7 @@ namespace app
     class App : public IApp
     {
     public:
-        App()                  = default;
+        App();
         ~App() override        = default;
         App(App&)              = delete;
         App(App&&)             = delete;

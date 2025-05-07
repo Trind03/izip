@@ -17,10 +17,13 @@ namespace app
 
         try
         {
-            Arg_parser->set_version_flag(Help_menu->param_view_descriptor(help::descriptor::MYVERSION),VERSION);
+            Arg_parser->set_version_flag(Help_menu->param_symbol_descriptor(help::descriptor::MYVERSION),VERSION);
 
-            Arg_parser->add_option(Help_menu->param_view_descriptor(help::descriptor::DECOMPRESS),
-                            File->filename,Help_menu->param_message_descriptor(help::descriptor::DECOMPRESS));
+            Arg_parser->add_option(Help_menu->param_symbol_descriptor(help::descriptor::DECOMPRESS),
+                        File->filename,Help_menu->param_message_descriptor(help::descriptor::DECOMPRESS));
+
+            Arg_parser->add_option(Help_menu->param_symbol_descriptor(help::descriptor::COMPRESS),
+                        File->filename,Help_menu->param_message_descriptor(help::descriptor::COMPRESS));
         }
 
         catch(const CLI::ArgumentMismatch& myException)

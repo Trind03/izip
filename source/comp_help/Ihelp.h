@@ -7,8 +7,9 @@ namespace help
     {
     public:
         virtual std::string param_message_descriptor(std::size_t selector)     = 0;
-        virtual std::string param_view_descriptor(std::size_t selector)        = 0;
+        virtual std::string param_symbol_descriptor(std::size_t selector)      = 0;
         virtual std::string general_message_descriptor(std::size_t selector)   = 0;
+
         virtual ~Ihelp() = default;
     };
 }
