@@ -20,8 +20,8 @@ namespace app
         {
             Arg_parser->set_version_flag(Help_menu->param_view_descriptor(help::descriptor::MYVERSION),VERSION);
 
-            Arg_parser->add_option(Help_menu->param_view_descriptor(help::descriptor::FILE),
-                            comp_file->filename,Help_menu->param_message_descriptor(help::descriptor::FILE));
+            Arg_parser->add_option(Help_menu->param_view_descriptor(help::descriptor::DECOMPRESS),
+                            comp_file->filename,Help_menu->param_message_descriptor(help::descriptor::DECOMPRESS));
         }
 
         catch(const CLI::ArgumentMismatch& myException)

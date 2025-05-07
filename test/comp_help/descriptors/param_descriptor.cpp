@@ -22,14 +22,14 @@ TEST_F(param_descriptor,Expect_out_of_bound_index)
 // File
 TEST_F(param_descriptor, Expect_file_equals_file)
 {
-    ASSERT_EQ(param_view_descriptor(help::descriptor::spesifier::FILE),
-              PARAM_DESCRIPTOR[help::descriptor::FILE]);
+    ASSERT_EQ(param_view_descriptor(help::descriptor::spesifier::DECOMPRESS),
+              PARAM_DESCRIPTOR[help::descriptor::DECOMPRESS]);
 }
 
 TEST_F(param_descriptor, Expect_version_Notequals_file)
 {
     ASSERT_NE(param_view_descriptor(help::descriptor::spesifier::MYVERSION),
-              PARAM_DESCRIPTOR[help::descriptor::spesifier::FILE]);
+              PARAM_DESCRIPTOR[help::descriptor::spesifier::DECOMPRESS]);
 }
 
 
@@ -42,6 +42,6 @@ TEST_F(param_descriptor, Expect_print_equals_print)
 
 TEST_F(param_descriptor, Expect_file_Notequals_print)
 {
-    ASSERT_NE(param_view_descriptor(help::descriptor::spesifier::FILE),
+    ASSERT_NE(param_view_descriptor(help::descriptor::spesifier::DECOMPRESS),
               PARAM_DESCRIPTOR[help::descriptor::spesifier::PRINT]);
 }
