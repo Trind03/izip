@@ -18,6 +18,7 @@ namespace wrappers
             archive* read_load_archive(const char* filename) override;
             archive_entry* render_archive_entry() override;
             int write_file_to_disk(struct archive* myarchive,struct archive_entry* entry) override;
+            int copy_data(struct archive* arcive,struct archive* archivew);
             int get_exit_code() override;
             ~File() override = default;
 

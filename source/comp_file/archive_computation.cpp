@@ -69,7 +69,7 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
 
         if (status_code != ARCHIVE_OK)
         {
-            fmt::print("{}",archive_error_string(current_archive));
+            spdlog::error("Unknown error.");
             break;
         }
 
@@ -84,7 +84,8 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
             return nullptr;
         }
 
-        status_code = write_file_to_disk(processed_archive,current_archive_entry);
+        //status_code = write_file_to_disk(processed_archive,current_archive_entry);
+        status_code  = archive_write_header(processed_archive,current_archive_entry);
         if (status_code < ARCHIVE_OK)
         {
             spdlog::warn("Less then ok ;<");
@@ -92,6 +93,7 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
 
         else if (archive_entry_size(current_archive_entry) > 0)
         {
+            status_code = copy_data(current_archive,processed_archive);
 
             if (status_code < ARCHIVE_OK)
                 spdlog::error("some error");
@@ -105,8 +107,8 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
 
         if (status_code < ARCHIVE_WARN)
             return nullptr;
+        status_code = archive_write_finish_entry(processed_archive);
 
-    }
 
 
     if(status_code != 0)
@@ -122,6 +124,7 @@ archive* wrappers::file::File::read_load_archive(const char* filename)
         archive_read_free(current_archive);
         archive_write_close(processed_archive);
         archive_write_free(processed_archive);
+    }
     }
 
     return processed_archive;
