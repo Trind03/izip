@@ -11,11 +11,10 @@ namespace app
     class App : public IApp
     {
     public:
-
-        App();
-        ~App() override  = default;
-        App(App&)        = delete;
-        App(App&&)       = delete;
+        App()                  = default;
+        ~App() override        = default;
+        App(App&)              = delete;
+        App(App&&)             = delete;
         App&& operator=(App&&) = delete;
         App& operator=(App&)   = delete;
 
@@ -24,10 +23,10 @@ namespace app
         int start(int argc, char **argv) override;
 
         std::unique_ptr<CLI::App> Arg_parser;
-    private:
 
+    private:
         // Properties
-        std::unique_ptr<help::Ihelp> Help_menu           = nullptr;
+        std::unique_ptr<help::Ihelp> Help_menu      = nullptr;
         std::unique_ptr<wrappers::file::IFile> File = nullptr;
         int exit_code = 0;
         static constexpr const char* VERSION  = "0.0.0.0 - Genisis";
