@@ -12,7 +12,7 @@ namespace app
         if(comp_file->filename.c_str())
         {
             spdlog::info(fmt::format("detected file: {}",comp_file->filename.c_str()));
-            comp_file->read_load_archive(comp_file->filename.c_str());
+            comp_file->decompress_archive(comp_file->filename.c_str());
         }
 
         return exit_code;
