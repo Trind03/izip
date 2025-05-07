@@ -3,9 +3,8 @@
 #include <spdlog/spdlog.h>
 #include "Help.h"
 #include "File.h"
-#include "exit_codes.hpp"
+#include "universal/exit_codes.hpp"
 #include "App.h"
-#define VERSION "0.0.0.0 - Genisis"
 
 namespace app
 {
@@ -14,14 +13,14 @@ namespace app
         exit_code  = EXIT_CODE::SUCCESS;
         Help_menu  = std::make_unique<help::Help>();
         Arg_parser = std::make_unique<CLI::App>(Help_menu->general_message_descriptor(help::descriptor::PROGRAM_DESCRIPTION));
-        comp_file = std::make_unique<wrappers::file::File>();
+        File = std::make_unique<wrappers::file::File>();
 
         try
         {
             Arg_parser->set_version_flag(Help_menu->param_view_descriptor(help::descriptor::MYVERSION),VERSION);
 
             Arg_parser->add_option(Help_menu->param_view_descriptor(help::descriptor::DECOMPRESS),
-                            comp_file->filename,Help_menu->param_message_descriptor(help::descriptor::DECOMPRESS));
+                            File->filename,Help_menu->param_message_descriptor(help::descriptor::DECOMPRESS));
         }
 
         catch(const CLI::ArgumentMismatch& myException)

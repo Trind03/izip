@@ -6,7 +6,6 @@
 #include "Ihelp.h"
 
 
-
 namespace app
 {
     class App : public IApp
@@ -17,6 +16,8 @@ namespace app
         ~App() override  = default;
         App(App&)        = delete;
         App(App&&)       = delete;
+        App&& operator=(App&&) = delete;
+        App& operator=(App&)   = delete;
 
         int get_exit_code()              override;
         void message()                   override;
@@ -27,8 +28,8 @@ namespace app
 
         // Properties
         std::unique_ptr<help::Ihelp> Help_menu           = nullptr;
-        std::unique_ptr<wrappers::file::IFile> File      = nullptr;
-        std::unique_ptr<wrappers::file::IFile> comp_file = nullptr;
+        std::unique_ptr<wrappers::file::IFile> File = nullptr;
         int exit_code = 0;
+        static constexpr const char* VERSION  = "0.0.0.0 - Genisis";
     };
 }
