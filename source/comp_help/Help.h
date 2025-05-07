@@ -2,7 +2,7 @@
 #include <array>
 #include "Ihelp.h"
 
-constexpr int COMMON_SIZE   = 3;
+constexpr int PARAM_LENGTH   = 5;
 constexpr int GENERALL_SIZE = 1;
 
 
@@ -16,18 +16,22 @@ namespace help
         std::string param_view_descriptor(std::size_t selector)   override;
         std::string general_message_descriptor(std::size_t selector) override;
     protected:
-        const std::array<const char*, COMMON_SIZE> PARAM_MESSAGE_DESCRIPTOR =
+        const std::array<const char*, PARAM_LENGTH> PARAM_MESSAGE_DESCRIPTOR =
         {
             "Returns the current release build version.",
-            "Takes file-path / filename for compression",
+            "Takes file-path/filename for decompression",
+            "Takes file-path/filename for compression",
             "prints spesified input string, to test basic io functionality.",
+            "Selection of algorithms."
         };
 
-        const std::array<const char*, COMMON_SIZE> PARAM_DESCRIPTOR =
+        const std::array<const char*, PARAM_LENGTH> PARAM_DESCRIPTOR =
         {
             "-v, --verison",
-            "-f, --file",
+            "-d, --decompress",
+            "-c, --compress",
             "-p, --print",
+            "-a, --algorithm"
 
         };
 

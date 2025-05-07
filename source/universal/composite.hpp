@@ -5,9 +5,11 @@ namespace help
     {
         enum spesifier
         {
-            MYVERSION,
-            FILE,
-            PRINT
+            MYVERSION = 0,
+            DECOMPRESS,
+            COMPRESS,
+            PRINT,
+            ALGORITHM
         };
         enum general_spesifier
         {
