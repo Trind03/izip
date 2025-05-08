@@ -7,8 +7,7 @@
 #include <filesystem>
 
 
-archive_entry* wrappers::file::File::
-    render_archive_entry()
+archive_entry* wrappers::file::File::render_archive_entry()
 {
     struct archive_entry* p_archive_entry;
 
@@ -70,7 +69,13 @@ int wrappers::file::File::decompress_archive(const char* filename)
 
         if (archive_type == AE_IFDIR)
         {
-            int mkdir_code = mkdir(pathname);
+            int mkdir_code = mkdir(pathname.c_str(),744);
+
+            if(mkdir_code != ARCHIVE_OK)
+            {
+                spdlog::error(fmt::format("Failure to handel folder structure, with exit_code: {}",mkdir_code));
+                rmdir(pathname.c_str());
+            }
         }
 
         if (status == ARCHIVE_EOF)
