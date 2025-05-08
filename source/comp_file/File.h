@@ -22,8 +22,9 @@ namespace wrappers
             int get_exit_code() override;
             ~File() override = default;
 
-            std::unique_ptr<std::fstream> file_stream = nullptr;
             std::string filename = "";
+            std::string pathname = "";
+            mode_t  archive_type;
             std::vector<char> m_data;
             int exit_code;
         };
