@@ -49,6 +49,7 @@ int wrappers::file::File::decompress_archive(const char* filename)
     archive_write_disk_set_options(processed_archive,flags);
     archive_write_disk_set_standard_lookup(processed_archive);
 
+
     if (archive_read_open_filename(current_archive, filename, EXPRECTED_BLOCK_SIZE) != ARCHIVE_OK)
     {
         spdlog::info("failed to open archive, perhaps files doesnt exist or blocking file permissions.");
@@ -64,6 +65,13 @@ int wrappers::file::File::decompress_archive(const char* filename)
     for(;;)
     {
         int status = archive_read_next_header(current_archive, &current_archive_entry);
+        pathname = archive_entry_pathname(current_archive_entry);
+        archive_type = archive_entry_filetype(current_archive_entry);
+
+        if (archive_type == AE_IFDIR)
+        {
+            int mkdir_code = mkdir(pathname);
+        }
 
         if (status == ARCHIVE_EOF)
         {
