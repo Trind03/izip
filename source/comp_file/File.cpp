@@ -7,42 +7,38 @@
 #include <spdlog/spdlog.h>
 #include <archive.h>
 
-namespace wrappers
+
+wrappers::file::File::File() : exit_code(0)
 {
-    namespace file
-    {
-        File::File() : exit_code(0)
-        {
 
-        }
+}
 
-        int File::get_exit_code()
-        {    
-            return exit_code;
-        }
+int wrappers::file::File::get_exit_code()
+{
+    return exit_code;
+}
 
-        int File::copy_data(struct archive* myarchive,struct archive* archivew)
-        {
-            int status_code = EXIT_CODE::SUCCESS;
-            const void *buff;
-            size_t size;
-            la_int64_t offset;
+int wrappers::file::File::copy_data(struct archive* myarchive,struct archive* archivew)
+{
+    int status_code = EXIT_CODE::SUCCESS;
+    const void *buff;
+    size_t size;
+    la_int64_t offset;
 
-            for (;;) {
-                status_code = archive_read_data_block(myarchive, &buff, &size, &offset);
-                if (status_code == ARCHIVE_EOF)
-                    return (ARCHIVE_OK);
+    for (;;) {
+        status_code = archive_read_data_block(myarchive, &buff, &size, &offset);
+        if (status_code == ARCHIVE_EOF)
+            return (ARCHIVE_OK);
 
-                if (status_code < ARCHIVE_OK)
-                    return (status_code);
+        if (status_code < ARCHIVE_OK)
+            return (status_code);
 
-                status_code = archive_write_data_block(archivew, buff, size, offset);
+        status_code = archive_write_data_block(archivew, buff, size, offset);
 
-                if (status_code < ARCHIVE_OK) {
-                    fprintf(stderr, "%s\n", archive_error_string(archivew));
-                    return (status_code);
-                }
-            }
+        if (status_code < ARCHIVE_OK) {
+            fprintf(stderr, "%s\n", archive_error_string(archivew));
+            return (status_code);
         }
     }
 }
+
