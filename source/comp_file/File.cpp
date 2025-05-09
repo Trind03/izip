@@ -7,8 +7,6 @@
 #include <spdlog/spdlog.h>
 #include <archive.h>
 
-extern const int BLOCK_SIZE;
-
 namespace wrappers
 {
     namespace file
@@ -25,21 +23,24 @@ namespace wrappers
 
         int File::copy_data(struct archive* myarchive,struct archive* archivew)
         {
-            int r;
+            int status_code = EXIT_CODE::SUCCESS;
             const void *buff;
             size_t size;
             la_int64_t offset;
 
             for (;;) {
-                r = archive_read_data_block(myarchive, &buff, &size, &offset);
-                if (r == ARCHIVE_EOF)
+                status_code = archive_read_data_block(myarchive, &buff, &size, &offset);
+                if (status_code == ARCHIVE_EOF)
                     return (ARCHIVE_OK);
-                if (r < ARCHIVE_OK)
-                    return (r);
-                r = archive_write_data_block(archivew, buff, size, offset);
-                if (r < ARCHIVE_OK) {
+
+                if (status_code < ARCHIVE_OK)
+                    return (status_code);
+
+                status_code = archive_write_data_block(archivew, buff, size, offset);
+
+                if (status_code < ARCHIVE_OK) {
                     fprintf(stderr, "%s\n", archive_error_string(archivew));
-                    return (r);
+                    return (status_code);
                 }
             }
         }

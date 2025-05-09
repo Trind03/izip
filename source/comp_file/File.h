@@ -3,8 +3,6 @@
 #include <fstream>
 #include <archive.h>
 #include "IFile.h"
-#define FILESUPPORT_SIZE 2
-const int BLOCK_SIZE = 32;
 
 
 namespace wrappers
@@ -17,7 +15,10 @@ namespace wrappers
             File();
             int decompress_archive(const char* filename) override;
             archive_entry* render_archive_entry() override;
-            int recursive_decompression(struct archive *Archive, struct archive_entry *Archive_entry, const char* prefix);
+
+            int
+            recursive_decompression(struct archive *Archive, struct archive_entry *Archive_entry, const char* prefix) override;
+
             int copy_data(struct archive* arcive,struct archive* archivew);
             int get_exit_code() override;
             ~File() override = default;
@@ -25,7 +26,6 @@ namespace wrappers
             std::string filename = "";
             std::string pathname = "";
             mode_t  archive_type;
-            std::vector<char> m_data;
             int exit_code;
         };
     }
