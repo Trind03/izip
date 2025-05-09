@@ -14,7 +14,6 @@ namespace wrappers
             virtual archive_entry* render_archive_entry()                       = 0;
             virtual  ~IFile()                                                   = default;
             virtual int get_exit_code()                                         = 0;
-            std::unique_ptr<std::fstream> file_stream                           = nullptr;
             std::string filename;
         };
     }
