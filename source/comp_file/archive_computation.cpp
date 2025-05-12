@@ -86,7 +86,7 @@ int wrappers::file::File::decompress_archive(const char* filename)
 
         if (status_code < ARCHIVE_OK)
         {
-            spdlog::info("NOK!");
+            spdlog::warning("NOK!");
         }
 
         if (status_code < ARCHIVE_WARN)
