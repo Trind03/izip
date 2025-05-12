@@ -51,7 +51,7 @@ int wrappers::file::File::decompress_archive(const char* filename)
 
     if (archive_read_open_filename(current_archive, filename, EXPRECTED_BLOCK_SIZE) != ARCHIVE_OK)
     {
-        spdlog::info("failed to open archive, perhaps files doesnt exist or blocking file permissions.");
+        spdlog::error("failed to open archive, perhaps files doesnt exist or blocking file permissions.");
         return status_code;
     }
     else
