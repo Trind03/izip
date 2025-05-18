@@ -86,7 +86,7 @@ int wrappers::file::File::decompress_archive(const char* filename)
 
         if (status_code < ARCHIVE_OK)
         {
-            spdlog::warning("NOK!");
+            spdlog::warn("NOK!");
         }
 
         if (status_code < ARCHIVE_WARN)
@@ -144,6 +144,9 @@ int wrappers::file::File::decompress_archive(const char* filename)
     archive_read_free(current_archive);
     archive_write_close(processed_archive);
     archive_write_free(processed_archive);
+
+    if(status_code == 0)
+        spdlog::info("Decompression finished successfully");
 
     return status_code;
 }
