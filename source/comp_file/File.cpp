@@ -13,12 +13,14 @@ wrappers::file::File::File() : exit_code(0)
 
 }
 
-int wrappers::file::File::get_exit_code()
+int
+wrappers::file::File::get_exit_code()
 {
     return exit_code;
 }
 
-int wrappers::file::File::copy_data(struct archive* myarchive,struct archive* archivew)
+int
+wrappers::file::File::copy_data(struct archive* myarchive,struct archive* archivew)
 {
     int status_code = EXIT_CODE::SUCCESS;
     const void *buff;
@@ -40,5 +42,12 @@ int wrappers::file::File::copy_data(struct archive* myarchive,struct archive* ar
             return (status_code);
         }
     }
+}
+
+mode_t
+wrappers::file::File::get_archive_type(const std::string_view filename)
+{
+    struct archive_entry *probe_archive_entry = render_archive_entry();
+    return 0;
 }
 

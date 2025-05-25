@@ -7,7 +7,8 @@
 #include <filesystem>
 
 
-archive_entry* wrappers::file::File::render_archive_entry()
+archive_entry*
+wrappers::file::File::render_archive_entry()
 {
     struct archive_entry* p_archive_entry;
 
@@ -19,7 +20,8 @@ archive_entry* wrappers::file::File::render_archive_entry()
 
 
 
-int wrappers::file::File::decompress_archive(const char* filename)
+int
+wrappers::file::File::decompress_archive(const char* filename)
 {
     constexpr int EXPRECTED_BLOCK_SIZE = 128;
     int status_code = 0;
