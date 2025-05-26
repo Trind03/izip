@@ -24,7 +24,7 @@ int
 wrappers::file::File::decompress_archive(const char* filename)
 {
     constexpr int EXPRECTED_BLOCK_SIZE = 128;
-    int status_code = 0;
+    int status_code = EXIT_CODE::SUCCESS;
     int flags       = 0;
 
     flags  = ARCHIVE_EXTRACT_TIME;
@@ -133,7 +133,7 @@ wrappers::file::File::decompress_archive(const char* filename)
 
     }
 
-    if(status_code != 0)
+    if(status_code != EXIT_CODE::SUCCESS)
     {
         spdlog::error("Failure to write extracted element to disk :<");
     }
@@ -147,7 +147,7 @@ wrappers::file::File::decompress_archive(const char* filename)
     archive_write_close(processed_archive);
     archive_write_free(processed_archive);
 
-    if(status_code == 0)
+    if(status_code == EXIT_CODE::SUCCESS)
         spdlog::info("Decompression finished successfully");
 
     return status_code;

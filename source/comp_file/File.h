@@ -21,11 +21,13 @@ namespace wrappers
             int
             recursive_decompression(struct archive *Archive, struct archive_entry *Archive_entry, const char* prefix) override;
 
-            mode_t
-            get_archive_type(const std::string_view filename) override;
+            //mode_t get_archive_type(const std::string_view filename) override;
+            mode_t get_archive_type(std::string_view filename) override;
 
             int
             copy_data(struct archive* arcive,struct archive* archivew);
+
+            //int is_valid(struct archive *MyArchive) override;
 
             int
             get_exit_code() override;

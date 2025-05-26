@@ -1,11 +1,11 @@
 #include <memory>
-#include "File.h"
 #include <string>
 #include <fmt/core.h>
-#include <fstream>
 #include "universal/exit_codes.hpp"
 #include <spdlog/spdlog.h>
 #include <archive.h>
+#include <archive_entry.h>
+#include "File.h"
 
 
 wrappers::file::File::File() : exit_code(0)
@@ -18,6 +18,7 @@ wrappers::file::File::get_exit_code()
 {
     return exit_code;
 }
+
 
 int
 wrappers::file::File::copy_data(struct archive* myarchive,struct archive* archivew)
@@ -38,16 +39,24 @@ wrappers::file::File::copy_data(struct archive* myarchive,struct archive* archiv
         status_code = archive_write_data_block(archivew, buff, size, offset);
 
         if (status_code < ARCHIVE_OK) {
-            fprintf(stderr, "%s\n", archive_error_string(archivew));
-            return (status_code);
+            spdlog::error(fmt::format("{}",archive_error_string(archivew)));
+
+            return status_code;
         }
     }
 }
 
 mode_t
-wrappers::file::File::get_archive_type(const std::string_view filename)
+wrappers::file::File::get_archive_type(std::string_view filename)
 {
     struct archive_entry *probe_archive_entry = render_archive_entry();
-    return 0;
+
+    std::string pathanme = archive_entry_pathname(probe_archive_entry);
+
+    fmt::print("{}",pathname);
+
+    mode_t type = archive_entry_filetype(probe_archive_entry);
+
+    return type;
 }
 
