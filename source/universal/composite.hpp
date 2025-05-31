@@ -8,6 +8,7 @@ namespace help
             MYVERSION = 0,
             DECOMPRESS,
             COMPRESS,
+            RECURSIVE,
             PRINT,
             ALGORITHM
         };

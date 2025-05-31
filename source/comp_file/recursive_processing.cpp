@@ -1,6 +1,5 @@
 #include "File.h"
 #include <archive.h>
-#include <fmt/core.h>
 #include <spdlog/spdlog.h>
 #include "universal/exit_codes.hpp"
 
