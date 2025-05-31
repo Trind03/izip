@@ -46,17 +46,18 @@ wrappers::file::File::copy_data(struct archive* myarchive,struct archive* archiv
     }
 }
 
-mode_t
-wrappers::file::File::get_archive_type(std::string_view filename)
-{
-    struct archive_entry *probe_archive_entry = render_archive_entry();
-
-    std::string pathanme = archive_entry_pathname(probe_archive_entry);
-
-    fmt::print("{}",pathname);
-
-    mode_t type = archive_entry_filetype(probe_archive_entry);
-
-    return type;
-}
+// temperarly decomissioned function, it is here for future use!
+// mode_t
+// wrappers::file::File::get_archive_type(std::string_view filename)
+// {
+//     struct archive_entry *probe_archive_entry = render_archive_entry();
+//
+//     std::string pathanme = archive_entry_pathname(probe_archive_entry);
+//
+//     fmt::print("{}",pathname);
+//
+//     mode_t type = archive_entry_filetype(probe_archive_entry);
+//
+//     return type;
+// }
 

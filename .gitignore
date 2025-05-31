@@ -2,6 +2,7 @@
 CMakePresets.json
 
 CMakeLists.txt.user
+.idea/
 izip.h.autosave
 .DS_Store
 .qtcreator/
