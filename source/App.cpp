@@ -5,15 +5,19 @@
 
 namespace app
 {
-    int App::start(int argc,char **argv)
+    int App::start(const int argc,char **argv)
     {
         CLI11_PARSE(*Arg_parser,argc,Arg_parser->ensure_utf8(argv));
 
-        if(File->filename.c_str())
+        if (File->filename.c_str())
         {
-            spdlog::info(fmt::format("detected file: {}",File->filename.c_str()));
-            spdlog::info(fmt::format("Recrusive status: {}", File->recrusive));
-            //File->decompress_archive(File->filename.c_str());
+            spdlog::info(fmt::format("detected file: {}",File->filename));
+
+            if (File->recrusive)
+                File->recursive_decompression(File->filename);
+
+            else
+                File->decompress_archive(File->filename);
         }
 
         return exit_code;
@@ -24,8 +28,5 @@ namespace app
         return exit_code;
     }
 
-    void App::message()
-    {
-        spdlog::info("Message function in App class.");
-    }
+
 }

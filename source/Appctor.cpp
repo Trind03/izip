@@ -24,7 +24,8 @@ namespace app
             Arg_parser->add_option(Help_menu->param_symbol_descriptor(help::descriptor::COMPRESS),
                         File->filename,Help_menu->param_message_descriptor(help::descriptor::COMPRESS));
 
-            Arg_parser->add_flag("-r, --recrusive",File->recrusive,"Recrusive processing for folders.");
+            Arg_parser->add_flag("-r, --recrusive",File->recrusive,
+                "Recrusive processing for folders.");
         }
         catch(const CLI::ArgumentMismatch& myException)
         {

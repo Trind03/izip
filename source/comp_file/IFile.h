@@ -10,9 +10,9 @@ namespace wrappers
         {
         public:
             virtual int
-            decompress_archive(const char* filename)          = 0;
+            decompress_archive(std::string_view filename)          = 0;
             virtual int
-            recursive_decompression(struct archive *Archive, struct archive_entry *Archive_entry, const char* prefix) = 0;
+            recursive_decompression(std::string_view filename) = 0;
             virtual archive_entry*
             render_archive_entry()                            = 0;
             //virtual int is_valid(struct archive *MyArchive)               = 0;
