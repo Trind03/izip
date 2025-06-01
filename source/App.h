@@ -8,7 +8,7 @@
 
 namespace app
 {
-    class App : public IApp
+    class App final : public IApp
     {
     public:
         App();
@@ -19,8 +19,7 @@ namespace app
         App& operator=(App&)   = delete;
 
         int get_exit_code()              override;
-        void message()                   override;
-        int start(int argc, char **argv) override;
+        int start(const int argc, char **argv) override;
 
         std::unique_ptr<CLI::App> Arg_parser;
 

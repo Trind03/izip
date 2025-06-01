@@ -21,7 +21,7 @@ wrappers::file::File::render_archive_entry()
 
 
 int
-wrappers::file::File::decompress_archive(const char* filename)
+wrappers::file::File::decompress_archive(std::string_view filename)
 {
     constexpr int EXPRECTED_BLOCK_SIZE = 128;
     int status_code = EXIT_CODE::SUCCESS;
@@ -51,7 +51,7 @@ wrappers::file::File::decompress_archive(const char* filename)
     archive_write_disk_set_standard_lookup(processed_archive);
 
 
-    if (archive_read_open_filename(current_archive, filename, EXPRECTED_BLOCK_SIZE) != ARCHIVE_OK)
+    if (archive_read_open_filename(current_archive, filename.data(), EXPRECTED_BLOCK_SIZE) != ARCHIVE_OK)
     {
         spdlog::error("failed to open archive, perhaps files doesnt exist or blocking file permissions.");
         return status_code;

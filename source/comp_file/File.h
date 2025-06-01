@@ -9,17 +9,17 @@ namespace wrappers
 {
     namespace file
     {
-        class File : public wrappers::file::IFile
+        class File final : public wrappers::file::IFile
         {
         public:
             File();
             int
-            decompress_archive(const char* filename) override;
+            decompress_archive(std::string_view filename) override;
             archive_entry*
             render_archive_entry() override;
 
             int
-            recursive_decompression(struct archive *Archive, struct archive_entry *Archive_entry, const char* prefix) override;
+            recursive_decompression(std::string_view filename) override;
 
             // mode_t get_archive_type(std::string_view filename) override;
 
