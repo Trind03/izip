@@ -19,6 +19,7 @@ namespace help
         {
             "Returns the current release build version.",
             "Takes file-path/filename for decompression",
+	    //"Processes archives recursively such as feks folders."
             "Takes file-path/filename for compression",
             "prints spesified input string, to test basic io functionality.",
             "Selection of algorithms."
@@ -28,6 +29,7 @@ namespace help
         {
             "-v, --verison",
             "-d, --decompress",
+            //"-r, --recursive",
             "-c, --compress",
             "-p, --print",
             "-a, --algorithm"
