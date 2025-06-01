@@ -22,7 +22,7 @@ namespace wrappers
             virtual int
             get_exit_code()                                   = 0;
             std::string filename;
-            bool recursive = false;
+            bool recrusive{false};
         };
     }
 }

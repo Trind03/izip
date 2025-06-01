@@ -12,6 +12,7 @@ namespace app
         if(File->filename.c_str())
         {
             spdlog::info(fmt::format("detected file: {}",File->filename.c_str()));
+            spdlog::info(fmt::format("Recrusive status: {}", File->recrusive));
             //File->decompress_archive(File->filename.c_str());
         }
 
