@@ -65,22 +65,22 @@ wrappers::file::File::decompress_archive(std::string_view filename)
 
     for(;;)
     {
-        int status = archive_read_next_header(current_archive, &current_archive_entry);
+        status_code = archive_read_next_header(current_archive, &current_archive_entry);
         pathname = archive_entry_pathname(current_archive_entry);
         archive_type = archive_entry_filetype(current_archive_entry);
 
         if (archive_type == AE_IFDIR)
         {
-            int mkdir_code = mkdir(pathname.c_str(),744);
+            status_code = mkdir(pathname.c_str(),S_IRWXU);
 
-            if(mkdir_code != ARCHIVE_OK)
+            if(status_code != ARCHIVE_OK)
             {
-                spdlog::error(fmt::format("Failure to handel folder structure, with exit_code: {}",mkdir_code));
+                spdlog::error(fmt::format("Failure to handel folder structure, with exit_code: {}",status_code));
                 rmdir(pathname.c_str());
             }
         }
 
-        if (status == ARCHIVE_EOF)
+        if (status_code == ARCHIVE_EOF)
         {
             spdlog::info("Processing finished.");
             break;
