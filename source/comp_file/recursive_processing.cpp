@@ -108,7 +108,6 @@ wrappers::file::File::recursive_decompression(std::string_view filename)
                 return status_code;
         }
 
-
         exit_code = archive_write_finish_entry(processed_archive);
 
         if(exit_code != EXIT_CODE::SUCCESS)
@@ -124,13 +123,10 @@ wrappers::file::File::recursive_decompression(std::string_view filename)
 
     }
 
-
-
     archive_read_close(current_archive);
     archive_read_free(current_archive);
     archive_write_close(processed_archive);
     archive_write_free(processed_archive);
-
 
     return status_code;
 }
