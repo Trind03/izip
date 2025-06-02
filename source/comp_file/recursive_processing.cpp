@@ -50,22 +50,28 @@ wrappers::file::File::recursive_decompression(std::string_view filename)
 
     for(;;)
     {
-        int status = archive_read_next_header(current_archive, &current_archive_entry);
+        status_code = archive_read_next_header(current_archive, &current_archive_entry);
         pathname = archive_entry_pathname(current_archive_entry);
         archive_type = archive_entry_filetype(current_archive_entry);
 
+        if (status_code != EXIT_CODE::SUCCESS)
+        {
+            spdlog::error("failed to read file-header, inconsistant formatting or corrupted file.");
+            return status_code;
+        }
+
         if (archive_type == AE_IFDIR)
         {
-            int mkdir_code = mkdir(pathname.c_str(),111);
+            status_code = mkdir(pathname.c_str(),111);
 
-            if(mkdir_code != ARCHIVE_OK)
+            if(status_code != ARCHIVE_OK)
             {
-                spdlog::error(fmt::format("Failure to handel folder structure, with exit_code: {}",mkdir_code));
+                spdlog::error(fmt::format("Failure to handel folder structure, with exit_code: {}",status_code));
                 rmdir(pathname.c_str());
             }
         }
 
-        if (status == ARCHIVE_EOF)
+        if (status_code == ARCHIVE_EOF)
         {
             spdlog::info("Processing finished.");
             break;
@@ -118,22 +124,13 @@ wrappers::file::File::recursive_decompression(std::string_view filename)
 
     }
 
-    if(status_code != EXIT_CODE::SUCCESS)
-    {
-        spdlog::error("Failure to write extracted element to disk :<");
-    }
 
-
-    if (status_code != ARCHIVE_OK)
-        spdlog::error("Files could't be written to disk due to unknown extraction error");
 
     archive_read_close(current_archive);
     archive_read_free(current_archive);
     archive_write_close(processed_archive);
     archive_write_free(processed_archive);
 
-    if(status_code == EXIT_CODE::SUCCESS)
-        spdlog::info("Decompression finished successfully");
 
     return status_code;
 }
