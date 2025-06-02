@@ -133,22 +133,15 @@ wrappers::file::File::decompress_archive(std::string_view filename)
 
     }
 
-    if(status_code != EXIT_CODE::SUCCESS)
-    {
-        spdlog::error("Failure to write extracted element to disk :<");
-    }
 
 
-    if (status_code != ARCHIVE_OK)
-        spdlog::error("Files could't be written to disk due to unknown extraction error");
+
 
     archive_read_close(current_archive);
     archive_read_free(current_archive);
     archive_write_close(processed_archive);
     archive_write_free(processed_archive);
 
-    if(status_code == EXIT_CODE::SUCCESS)
-        spdlog::info("Decompression finished successfully");
 
     return status_code;
 }
