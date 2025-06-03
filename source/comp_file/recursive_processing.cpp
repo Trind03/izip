@@ -103,23 +103,12 @@ wrappers::file::File::recursive_decompression(std::string_view filename)
 
             if (exit_code < ARCHIVE_OK)
                 spdlog::error("some error");
-
-            if (exit_code < ARCHIVE_WARN)
-                return status_code;
         }
 
         exit_code = archive_write_finish_entry(processed_archive);
 
         if(exit_code != EXIT_CODE::SUCCESS)
             spdlog::error("Unknown issue finishing up, in last iteration");
-
-        return status_code;
-
-        if (status_code < ARCHIVE_OK)
-            spdlog::warn("NOK!");
-
-        if (status_code < ARCHIVE_WARN)
-            return status_code;
 
     }
 
