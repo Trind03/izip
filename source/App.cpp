@@ -13,7 +13,7 @@ namespace app
         {
             spdlog::info(fmt::format("detected file: {}",File->filename));
 
-            if (File->recrusive)
+            if (File->recursive)
                 File->recursive_decompression(File->filename);
 
             else
