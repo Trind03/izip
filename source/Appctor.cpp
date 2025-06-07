@@ -16,6 +16,7 @@ namespace app
         File = std::make_unique<wrappers::file::File>();
 
         try {
+
             Arg_parser->set_version_flag(Help_menu->param_symbol_descriptor(help::descriptor::MYVERSION),VERSION);
 
             Arg_parser->add_option(Help_menu->param_symbol_descriptor(help::descriptor::DECOMPRESS),
@@ -23,13 +24,11 @@ namespace app
 
             Arg_parser->add_option(Help_menu->param_symbol_descriptor(help::descriptor::COMPRESS),
                         File->filename,Help_menu->param_message_descriptor(help::descriptor::COMPRESS));
-
-            Arg_parser->add_flag("-r, --recursive",File->recursive,
-                "Recrusive processing for folders.");
+            File->recursive = Arg_parser->add_subcommand("recursive","myrecursive");
         }
         catch(const CLI::ArgumentMismatch& myException)
         {
-            spdlog::error<const char*>("Argument mismach error.");
+            spdlog::error<const char*>("Argument mismatch error.");
             exit_code = EXIT_CODE::INVALID_ARG;
         }
 

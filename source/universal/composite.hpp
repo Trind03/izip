@@ -1,19 +1,17 @@
 
-namespace help
+namespace help::descriptor
 {
-    namespace descriptor
+    enum spesifier
     {
-        enum spesifier
-        {
-            MYVERSION = 0,
-            DECOMPRESS,
-            COMPRESS,
-            PRINT,
-            ALGORITHM
-        };
-        enum general_spesifier
-        {
-            PROGRAM_DESCRIPTION,
-        };
-    }
+        MYVERSION = 0,
+        DECOMPRESS,
+        COMPRESS,
+        RECURSIVE,
+        PRINT,
+        ALGORITHM
+    };
+    enum general_spesifier
+    {
+        PROGRAM_DESCRIPTION,
+    };
 }

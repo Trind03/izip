@@ -2,7 +2,7 @@
 #include <array>
 #include "Ihelp.h"
 
-constexpr int PARAM_LENGTH   = 5;
+constexpr int PARAM_LENGTH   = 6;
 constexpr int GENERAL_SIZE = 1;
 
 namespace help
@@ -19,8 +19,8 @@ namespace help
         {
             "Returns the current release build version.",
             "Takes file-path/filename for decompression",
-	        //"Processes archives recursively such as feks folders."
             "Takes file-path/filename for compression",
+            "Processes archives recursively such as feks folders.",
             "prints spesified input string, to test basic io functionality.",
             "Selection of algorithms."
         };
@@ -29,14 +29,14 @@ namespace help
         {
             "-v, --verison",
             "-d, --decompress",
-            //"-r, --recursive",
             "-c, --compress",
+            "-r, --recursive",
             "-p, --print",
             "-a, --algorithm"
 
         };
 
-        const std::array<const char*,GENERALL_SIZE> GENERAL_MESSAGE =
+        const std::array<const char*,GENERAL_SIZE> GENERAL_MESSAGE =
         {
             "Ligth-weigth program for compressing and uncompressing zip and tarball files."
         };
