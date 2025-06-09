@@ -17,14 +17,14 @@ namespace app
 
         try {
 
-            Arg_parser->set_version_flag(Help_menu->param_symbol_descriptor(help::descriptor::MYVERSION),VERSION);
+            this->OptVersion = Arg_parser->set_version_flag(Help_menu->param_symbol_descriptor(help::descriptor::MYVERSION),VERSION);
 
-            Arg_parser->add_option(Help_menu->param_symbol_descriptor(help::descriptor::DECOMPRESS),
+            this->OptDecompress = Arg_parser->add_option(Help_menu->param_symbol_descriptor(help::descriptor::DECOMPRESS),
                         File->filename,Help_menu->param_message_descriptor(help::descriptor::DECOMPRESS));
 
-            Arg_parser->add_option(Help_menu->param_symbol_descriptor(help::descriptor::COMPRESS),
+            this->OptCompress = Arg_parser->add_option(Help_menu->param_symbol_descriptor(help::descriptor::COMPRESS),
                         File->filename,Help_menu->param_message_descriptor(help::descriptor::COMPRESS));
-            File->recursive = Arg_parser->add_subcommand("recursive","myrecursive");
+            const CLI::App *recursive = Arg_parser->add_subcommand("recursive","myrecursive");
         }
         catch(const CLI::ArgumentMismatch& myException)
         {
