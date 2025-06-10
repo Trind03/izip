@@ -24,7 +24,7 @@ int
 wrappers::file::File::decompress_archive(std::string_view filename)
 {
     constexpr int EXPRECTED_BLOCK_SIZE = 128;
-    int status_code = EXIT_CODE::SUCCESS;
+    int status_code = Izip::Universal::EXIT_CODE::SUCCESS;
     int flags       = 0;
 
     flags  = ARCHIVE_EXTRACT_TIME;
@@ -99,7 +99,7 @@ wrappers::file::File::decompress_archive(std::string_view filename)
 
         exit_code = archive_write_header(processed_archive,current_archive_entry);
 
-        if(exit_code != EXIT_CODE::SUCCESS)
+        if(exit_code != Izip::Universal::EXIT_CODE::SUCCESS)
             spdlog::error("Unknown issue writing to iterative chunk to disk.");
 
 
@@ -120,7 +120,7 @@ wrappers::file::File::decompress_archive(std::string_view filename)
 
         exit_code = archive_write_finish_entry(processed_archive);
 
-        if(exit_code != EXIT_CODE::SUCCESS)
+        if(exit_code != Izip::Universal::EXIT_CODE::SUCCESS)
             spdlog::error("Unknown issue finishing up, in last iteration");
 
         return status_code;

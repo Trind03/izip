@@ -1,7 +1,6 @@
 #pragma once
-#include "universal/composite.hpp"
 
-namespace help
+namespace Izip::Wrappers::CompHelp
 {
     class Ihelp
     {

@@ -3,7 +3,7 @@
 #include "Help.h"
 #include "App.h"
 
-namespace app
+namespace Izip
 {
     int App::start(int argc,char **argv)
     {

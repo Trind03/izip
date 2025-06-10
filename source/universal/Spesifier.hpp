@@ -1,7 +1,7 @@
 
-namespace help::descriptor
+namespace Izip::Universal
 {
-    enum spesifier
+    enum Spesifier
     {
         MYVERSION = 0,
         DECOMPRESS,
@@ -10,7 +10,7 @@ namespace help::descriptor
         PRINT,
         ALGORITHM
     };
-    enum general_spesifier
+    enum GeneralSpesifier
     {
         PROGRAM_DESCRIPTION,
     };

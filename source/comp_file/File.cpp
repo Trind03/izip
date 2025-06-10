@@ -23,7 +23,7 @@ wrappers::file::File::get_exit_code()
 int
 wrappers::file::File::copy_data(struct archive* myarchive,struct archive* archivew)
 {
-    int status_code = EXIT_CODE::SUCCESS;
+    int status_code = Izip::Universal::EXIT_CODE::SUCCESS;
     const void *buff;
     size_t size;
     la_int64_t offset;

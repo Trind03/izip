@@ -8,7 +8,7 @@ int
 wrappers::file::File::recursive_decompression(std::string_view filename)
 {
     constexpr int EXPRECTED_BLOCK_SIZE = 128;
-    int status_code = EXIT_CODE::SUCCESS;
+    int status_code = Izip::Universal::EXIT_CODE::SUCCESS;
     int flags       = 0;
 
     flags  = ARCHIVE_EXTRACT_TIME;
@@ -54,7 +54,7 @@ wrappers::file::File::recursive_decompression(std::string_view filename)
         pathname = archive_entry_pathname(current_archive_entry);
         archive_type = archive_entry_filetype(current_archive_entry);
 
-        if (status_code != EXIT_CODE::SUCCESS)
+        if (status_code != Izip::Universal::EXIT_CODE::SUCCESS)
         {
             spdlog::error("failed to read file-header, inconsistant formatting or corrupted file.");
             return status_code;
@@ -90,7 +90,7 @@ wrappers::file::File::recursive_decompression(std::string_view filename)
 
         exit_code = archive_write_header(processed_archive,current_archive_entry);
 
-        if(exit_code != EXIT_CODE::SUCCESS)
+        if(exit_code != Izip::Universal::EXIT_CODE::SUCCESS)
             spdlog::error("Unknown issue writing to iterative chunk to disk.");
 
 
@@ -107,7 +107,7 @@ wrappers::file::File::recursive_decompression(std::string_view filename)
 
         exit_code = archive_write_finish_entry(processed_archive);
 
-        if(exit_code != EXIT_CODE::SUCCESS)
+        if(exit_code != Izip::Universal::EXIT_CODE::SUCCESS)
             spdlog::error("Unknown issue finishing up, in last iteration");
 
     }

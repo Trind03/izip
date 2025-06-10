@@ -2,7 +2,7 @@
 #include "Help.h"
 #include "universal/exit_codes.hpp"
 
-namespace help
+namespace Izip::Wrappers::CompHelp
 {
     std::string Help::param_message_descriptor(std::size_t selector)
     {

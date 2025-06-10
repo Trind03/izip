@@ -5,14 +5,14 @@
 constexpr int PARAM_LENGTH   = 6;
 constexpr int GENERAL_SIZE = 1;
 
-namespace help
+namespace Izip::Wrappers::CompHelp
 {
-    class Help : public help::Ihelp
+    class Help : public Ihelp
     {
     public:
         Help() = default;
-        std::string param_message_descriptor(std::size_t selector) override;
-        std::string param_symbol_descriptor(std::size_t selector)   override;
+        std::string param_message_descriptor(std::size_t selector)   override;
+        std::string param_symbol_descriptor(std::size_t selector)    override;
         std::string general_message_descriptor(std::size_t selector) override;
 
         const std::array<const char*, PARAM_LENGTH> PARAM_MESSAGE_DESCRIPTOR =

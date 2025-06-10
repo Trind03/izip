@@ -1,7 +1,7 @@
 #pragma once
 #include <archive.h>
 
-namespace wrappers::file
+namespace Izip::Wrappers::CompFile
 {
     class IFile
     {

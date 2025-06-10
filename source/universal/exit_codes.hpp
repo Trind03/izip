@@ -1,4 +1,6 @@
-namespace EXIT_CODE
+#pragma once
+
+namespace Izip::Universal
 {
     enum EXIT_CODE
     {

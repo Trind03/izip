@@ -9,7 +9,7 @@ namespace wrappers
 {
     namespace file
     {
-        class File final : public wrappers::file::IFile
+        class File final : public Izip::Wrappers::CompFile::IFile
         {
         public:
             File();

@@ -6,7 +6,7 @@
 #include "Ihelp.h"
 
 
-namespace app
+namespace Izip
 {
     class App final : public IApp
     {
@@ -25,8 +25,8 @@ namespace app
 
     private:
         // Properties
-        std::unique_ptr<help::Ihelp> Help_menu      = nullptr;
-        std::unique_ptr<wrappers::file::IFile> File = nullptr;
+        std::unique_ptr<Izip::Wrappers::CompHelp::Ihelp> Help_menu      = nullptr;
+        std::unique_ptr<Izip::Wrappers::CompFile::IFile> File           = nullptr;
         int exit_code = 0;
         static constexpr const char* VERSION  = "0.0.0.0 - Genisis";
     };
