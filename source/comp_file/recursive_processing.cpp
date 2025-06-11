@@ -4,15 +4,16 @@
 #include <spdlog/spdlog.h>
 #include <sys/stat.h>
 #include "CLI/Error.hpp"
+#include "spdlog/fmt/bundled/chrono.h"
 #include "universal/exit_codes.hpp"
 
 int
 Izip::Wrappers::CompFile::File::recursive_decompression(std::string_view filename)
 {
-    bool FolderCreated = false;
-    constexpr int EXPRECTED_BLOCK_SIZE = 128;
-    int status_code = Izip::Universal::EXIT_CODE::SUCCESS;
-    int flags       = 0;
+    std::array<char,1024> buffer;
+    int status_code   = Izip::Universal::EXIT_CODE::SUCCESS;
+    int ArchiveStatus = 0;
+    int flags         = 0;
 
     flags  = ARCHIVE_EXTRACT_TIME;
     flags |= ARCHIVE_EXTRACT_ACL;
@@ -39,7 +40,7 @@ Izip::Wrappers::CompFile::File::recursive_decompression(std::string_view filenam
     archive_write_disk_set_standard_lookup(processed_archive);
 
 
-    if (archive_read_open_filename(current_archive, filename.data(), EXPRECTED_BLOCK_SIZE) == ARCHIVE_OK)
+    if (archive_read_open_filename(current_archive, filename.data(), buffer.size()) == ARCHIVE_OK)
     {
         spdlog::info("File opened successfully!");
     }
@@ -52,50 +53,33 @@ Izip::Wrappers::CompFile::File::recursive_decompression(std::string_view filenam
 
     for(;;)
     {
-        status_code = archive_read_next_header(current_archive, &current_archive_entry);
-        if (status_code != ARCHIVE_OK) {
-            status_code = InteroptHandler("Failure to read archive header,"
-                                          "removing processed garbage.",pathname);
-            return status_code;
-        }
+        ArchiveStatus = archive_read_next_header(current_archive,&current_archive_entry);
+
+        if (ArchiveStatus == ARCHIVE_EOF)
+            break;
+
         pathname = archive_entry_pathname(current_archive_entry);
-        archive_type = archive_entry_filetype(current_archive_entry);
+        unsigned short EntryType = archive_entry_filetype(current_archive_entry);
 
-
-        if (archive_type == AE_IFDIR && !FolderCreated)
-        {
-            status_code = mkdir(pathname.c_str(),UserPermissions);
-            FolderCreated = true;
+        if (EntryType == AE_IFDIR) {
+            spdlog::info(fmt::format("Creating new directory: {}", pathname));
+            mkdir(pathname.c_str(),UserPermissions);
         }
-        if(status_code != ARCHIVE_OK)
-        {
-            spdlog::error(fmt::format("Failure to handel folder structure, with exit_code: {}",status_code));
-            status_code = Izip::Universal::EXIT_CODE::FAILURE;
-            return status_code;
+        archive_read_data(current_archive,buffer.data(),buffer.size());
+
+        if ( ArchiveStatus == ARCHIVE_RETRY ) {
+            spdlog::error("Unexpected error arrised from parsing header");
+            return ArchiveStatus;
         }
 
-        exit_code = archive_write_header(processed_archive,current_archive_entry);
-
-        if(exit_code != Izip::Universal::EXIT_CODE::SUCCESS)
-            spdlog::error("Unknown issue writing to iterative chunk to disk.");
-
-
-        if (exit_code < ARCHIVE_OK)
-            spdlog::warn("Less then ok ;<");
-
-        else if (archive_entry_size(current_archive_entry) > 0)
-        {
-            exit_code = copy_data(current_archive,processed_archive);
-
-            if (exit_code < ARCHIVE_OK)
-                spdlog::error("some error");
+        if ( ArchiveStatus == ARCHIVE_WARN ) {
+            spdlog::warn("Unexpected warning arrised from parsing header");
+            return ArchiveStatus;
         }
 
-        exit_code = archive_write_finish_entry(processed_archive);
 
-        if(exit_code != Izip::Universal::EXIT_CODE::SUCCESS)
-            spdlog::error("Unknown issue finishing up, in last iteration");
-
+        archive_write_header(processed_archive,current_archive_entry);
+        archive_write_data(processed_archive,buffer.data(),buffer.size());
     }
 
     archive_read_close(current_archive);
