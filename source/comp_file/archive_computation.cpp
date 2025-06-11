@@ -53,17 +53,16 @@ Izip::Wrappers::CompFile::File::decompress_archive(std::string_view filename)
     archive_write_disk_set_standard_lookup(processed_archive);
 
 
-    if (archive_read_open_filename(current_archive, filename.data(), EXPRECTED_BLOCK_SIZE) != ARCHIVE_OK)
+    if (archive_read_open_filename(current_archive, filename.data(), EXPRECTED_BLOCK_SIZE) == ARCHIVE_OK)
+        spdlog::info("File opened successfully!");
+
+    else
     {
         spdlog::error("failed to open archive, perhaps files doesnt exist or blocking file permissions.");
         return status_code;
     }
-    else
-    {
-        spdlog::info("File opened successfully!");
-    }
 
-    spdlog::info("Processing supplied file");
+    spdlog::info("Processing supplied file!");
 
     for(;;)
     {

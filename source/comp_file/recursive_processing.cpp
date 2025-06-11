@@ -9,6 +9,7 @@
 int
 Izip::Wrappers::CompFile::File::recursive_decompression(std::string_view filename)
 {
+    bool FolderCreated = false;
     constexpr int EXPRECTED_BLOCK_SIZE = 128;
     int status_code = Izip::Universal::EXIT_CODE::SUCCESS;
     int flags       = 0;
@@ -29,7 +30,7 @@ Izip::Wrappers::CompFile::File::recursive_decompression(std::string_view filenam
     processed_archive       = archive_write_disk_new();
     current_archive_entry   = render_archive_entry();
 
-    spdlog::info("Recrusive archive handlers initialized!");
+    spdlog::debug("Recrusive archive handlers initialized!");
 
     archive_read_support_format_all(current_archive);
     archive_read_support_filter_all(current_archive);
@@ -47,7 +48,7 @@ Izip::Wrappers::CompFile::File::recursive_decompression(std::string_view filenam
         spdlog::info("File opening failure.");
     }
 
-    spdlog::info("Processing supplied file");
+    spdlog::info("Processing supplied folder!");
 
     for(;;)
     {
@@ -61,16 +62,16 @@ Izip::Wrappers::CompFile::File::recursive_decompression(std::string_view filenam
         archive_type = archive_entry_filetype(current_archive_entry);
 
 
-        if (archive_type == AE_IFDIR)
+        if (archive_type == AE_IFDIR && !FolderCreated)
         {
             status_code = mkdir(pathname.c_str(),UserPermissions);
-
-            if(status_code != ARCHIVE_OK) {
-                spdlog::error(fmt::format("Failure to handel folder structure, with exit_code: {}",status_code));
-                status_code = Izip::Universal::EXIT_CODE::FAILURE;
-                return status_code;
-            }
-
+            FolderCreated = true;
+        }
+        if(status_code != ARCHIVE_OK)
+        {
+            spdlog::error(fmt::format("Failure to handel folder structure, with exit_code: {}",status_code));
+            status_code = Izip::Universal::EXIT_CODE::FAILURE;
+            return status_code;
         }
 
         exit_code = archive_write_header(processed_archive,current_archive_entry);
