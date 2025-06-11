@@ -7,6 +7,7 @@ namespace Izip::Universal
         DECOMPRESS,
         COMPRESS,
         RECURSIVE,
+        PERMISSIONS,
         PRINT,
         ALGORITHM
     };

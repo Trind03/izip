@@ -7,8 +7,10 @@
 #include <filesystem>
 
 
+
+
 archive_entry*
-wrappers::file::File::render_archive_entry()
+Izip::Wrappers::CompFile::File::render_archive_entry()
 {
     struct archive_entry* p_archive_entry;
 
@@ -21,7 +23,7 @@ wrappers::file::File::render_archive_entry()
 
 
 int
-wrappers::file::File::decompress_archive(std::string_view filename)
+Izip::Wrappers::CompFile::File::decompress_archive(std::string_view filename)
 {
     constexpr int EXPRECTED_BLOCK_SIZE = 128;
     int status_code = Izip::Universal::EXIT_CODE::SUCCESS;
@@ -69,16 +71,6 @@ wrappers::file::File::decompress_archive(std::string_view filename)
         pathname = archive_entry_pathname(current_archive_entry);
         archive_type = archive_entry_filetype(current_archive_entry);
 
-        if (archive_type == AE_IFDIR)
-        {
-            status_code = mkdir(pathname.c_str(),S_IRWXU);
-
-            if(status_code != ARCHIVE_OK)
-            {
-                spdlog::error(fmt::format("Failure to handel folder structure, with exit_code: {}",status_code));
-                rmdir(pathname.c_str());
-            }
-        }
 
         if (status_code == ARCHIVE_EOF)
         {

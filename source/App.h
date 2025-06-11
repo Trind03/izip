@@ -28,6 +28,6 @@ namespace Izip
         std::unique_ptr<Izip::Wrappers::CompHelp::Ihelp> Help_menu      = nullptr;
         std::unique_ptr<Izip::Wrappers::CompFile::IFile> File           = nullptr;
         int exit_code = 0;
-        static constexpr const char* VERSION  = "0.0.0.0 - Genisis";
+        static constexpr const char* VERSION  = "1.0";
     };
 }

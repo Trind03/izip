@@ -21,7 +21,7 @@ namespace Izip::Wrappers::CompHelp
             "Takes file-path/filename for decompression",
             "Takes file-path/filename for compression",
             "Processes archives recursively such as feks folders.",
-            "prints spesified input string, to test basic io functionality.",
+            "Spesify file permssions for output file. Default: 700",
             "Selection of algorithms."
         };
 
@@ -31,7 +31,7 @@ namespace Izip::Wrappers::CompHelp
             "-d, --decompress",
             "-c, --compress",
             "-r, --recursive",
-            "-p, --print",
+            "-p, --permissions",
             "-a, --algorithm"
 
         };

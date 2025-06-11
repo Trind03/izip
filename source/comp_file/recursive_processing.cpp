@@ -2,10 +2,12 @@
 #include <archive.h>
 #include <archive_entry.h>
 #include <spdlog/spdlog.h>
+#include <sys/stat.h>
+#include "CLI/Error.hpp"
 #include "universal/exit_codes.hpp"
 
 int
-wrappers::file::File::recursive_decompression(std::string_view filename)
+Izip::Wrappers::CompFile::File::recursive_decompression(std::string_view filename)
 {
     constexpr int EXPRECTED_BLOCK_SIZE = 128;
     int status_code = Izip::Universal::EXIT_CODE::SUCCESS;
@@ -15,6 +17,7 @@ wrappers::file::File::recursive_decompression(std::string_view filename)
     flags |= ARCHIVE_EXTRACT_ACL;
     flags |= ARCHIVE_EXTRACT_PERM;
     flags |= ARCHIVE_EXTRACT_FFLAGS;
+
 
     struct archive_entry* current_archive_entry;
     struct archive* processed_archive;
@@ -35,15 +38,13 @@ wrappers::file::File::recursive_decompression(std::string_view filename)
     archive_write_disk_set_standard_lookup(processed_archive);
 
 
-    if (archive_read_open_filename(current_archive, filename.data(), EXPRECTED_BLOCK_SIZE) != ARCHIVE_OK)
+    if (archive_read_open_filename(current_archive, filename.data(), EXPRECTED_BLOCK_SIZE) == ARCHIVE_OK)
     {
-        spdlog::error("failed to open archive, perhaps files doesnt exist or blocking file permissions.");
-        status_code = EXIT_FAILURE;
-        return status_code;
+        spdlog::info("File opened successfully!");
     }
     else
     {
-        spdlog::info("File opened successfully!");
+        spdlog::info("File opening failure.");
     }
 
     spdlog::info("Processing supplied file");
@@ -51,41 +52,25 @@ wrappers::file::File::recursive_decompression(std::string_view filename)
     for(;;)
     {
         status_code = archive_read_next_header(current_archive, &current_archive_entry);
+        if (status_code != ARCHIVE_OK) {
+            spdlog::error("Error reading archive header, removing garbage data.");
+            //rmdir(pathname.c_str());
+            return status_code;
+        }
         pathname = archive_entry_pathname(current_archive_entry);
         archive_type = archive_entry_filetype(current_archive_entry);
 
-        if (status_code != Izip::Universal::EXIT_CODE::SUCCESS)
-        {
-            spdlog::error("failed to read file-header, inconsistant formatting or corrupted file.");
-            return status_code;
-        }
 
         if (archive_type == AE_IFDIR)
         {
-            status_code = mkdir(pathname.c_str(),111);
+            status_code = mkdir(pathname.c_str(),UserPermissions);
 
-            if(status_code != ARCHIVE_OK)
-            {
+            if(status_code != ARCHIVE_OK) {
                 spdlog::error(fmt::format("Failure to handel folder structure, with exit_code: {}",status_code));
-                rmdir(pathname.c_str());
+                status_code = Izip::Universal::EXIT_CODE::FAILURE;
+                return status_code;
             }
-        }
 
-        if (status_code == ARCHIVE_EOF)
-        {
-            spdlog::info("Processing finished.");
-            break;
-        }
-
-        if (status_code < ARCHIVE_OK)
-        {
-            spdlog::warn("NOK!");
-        }
-
-        if (status_code < ARCHIVE_WARN)
-        {
-            spdlog::warn("exited with warnings");
-            return status_code;
         }
 
         exit_code = archive_write_header(processed_archive,current_archive_entry);

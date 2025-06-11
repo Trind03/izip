@@ -24,5 +24,6 @@ namespace Izip
         CLI::Option *OptDecompress       = nullptr;
         CLI::Option *OptCompress         = nullptr;
         CLI::Option *OptRecursive        = nullptr;
+        CLI::Option *OptPermissions      = nullptr;
     };
 }
