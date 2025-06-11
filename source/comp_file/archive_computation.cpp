@@ -68,6 +68,8 @@ Izip::Wrappers::CompFile::File::decompress_archive(std::string_view filename)
     for(;;)
     {
         status_code = archive_read_next_header(current_archive, &current_archive_entry);
+        if (status_code != ARCHIVE_OK)
+            InteroptHandler("Failure to read archive header, removing garbage",pathname);
         pathname = archive_entry_pathname(current_archive_entry);
         archive_type = archive_entry_filetype(current_archive_entry);
 

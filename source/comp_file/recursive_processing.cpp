@@ -53,8 +53,8 @@ Izip::Wrappers::CompFile::File::recursive_decompression(std::string_view filenam
     {
         status_code = archive_read_next_header(current_archive, &current_archive_entry);
         if (status_code != ARCHIVE_OK) {
-            spdlog::error("Error reading archive header, removing garbage data.");
-            //rmdir(pathname.c_str());
+            status_code = InteroptHandler("Failure to read archive header,"
+                                          "removing processed garbage.",pathname);
             return status_code;
         }
         pathname = archive_entry_pathname(current_archive_entry);
