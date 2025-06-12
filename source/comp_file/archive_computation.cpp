@@ -7,8 +7,10 @@
 #include <filesystem>
 
 
+
+
 archive_entry*
-wrappers::file::File::render_archive_entry()
+Izip::Wrappers::CompFile::File::render_archive_entry()
 {
     struct archive_entry* p_archive_entry;
 
@@ -21,10 +23,10 @@ wrappers::file::File::render_archive_entry()
 
 
 int
-wrappers::file::File::decompress_archive(std::string_view filename)
+Izip::Wrappers::CompFile::File::decompress_archive(std::string_view filename)
 {
     constexpr int EXPRECTED_BLOCK_SIZE = 128;
-    int status_code = EXIT_CODE::SUCCESS;
+    int status_code = Izip::Universal::EXIT_CODE::SUCCESS;
     int flags       = 0;
 
     flags  = ARCHIVE_EXTRACT_TIME;
@@ -51,34 +53,25 @@ wrappers::file::File::decompress_archive(std::string_view filename)
     archive_write_disk_set_standard_lookup(processed_archive);
 
 
-    if (archive_read_open_filename(current_archive, filename.data(), EXPRECTED_BLOCK_SIZE) != ARCHIVE_OK)
+    if (archive_read_open_filename(current_archive, filename.data(), EXPRECTED_BLOCK_SIZE) == ARCHIVE_OK)
+        spdlog::info("File opened successfully!");
+
+    else
     {
         spdlog::error("failed to open archive, perhaps files doesnt exist or blocking file permissions.");
         return status_code;
     }
-    else
-    {
-        spdlog::info("File opened successfully!");
-    }
 
-    spdlog::info("Processing supplied file");
+    spdlog::info("Processing supplied file!");
 
     for(;;)
     {
         status_code = archive_read_next_header(current_archive, &current_archive_entry);
+        if (status_code != ARCHIVE_OK)
+            InteroptHandler("Failure to read archive header, removing garbage",pathname);
         pathname = archive_entry_pathname(current_archive_entry);
         archive_type = archive_entry_filetype(current_archive_entry);
 
-        if (archive_type == AE_IFDIR)
-        {
-            status_code = mkdir(pathname.c_str(),S_IRWXU);
-
-            if(status_code != ARCHIVE_OK)
-            {
-                spdlog::error(fmt::format("Failure to handel folder structure, with exit_code: {}",status_code));
-                rmdir(pathname.c_str());
-            }
-        }
 
         if (status_code == ARCHIVE_EOF)
         {
@@ -99,7 +92,7 @@ wrappers::file::File::decompress_archive(std::string_view filename)
 
         exit_code = archive_write_header(processed_archive,current_archive_entry);
 
-        if(exit_code != EXIT_CODE::SUCCESS)
+        if(exit_code != Izip::Universal::EXIT_CODE::SUCCESS)
             spdlog::error("Unknown issue writing to iterative chunk to disk.");
 
 
@@ -120,7 +113,7 @@ wrappers::file::File::decompress_archive(std::string_view filename)
 
         exit_code = archive_write_finish_entry(processed_archive);
 
-        if(exit_code != EXIT_CODE::SUCCESS)
+        if(exit_code != Izip::Universal::EXIT_CODE::SUCCESS)
             spdlog::error("Unknown issue finishing up, in last iteration");
 
         return status_code;

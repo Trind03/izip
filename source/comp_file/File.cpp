@@ -8,22 +8,39 @@
 #include "File.h"
 
 
-wrappers::file::File::File() : exit_code(0)
+Izip::Wrappers::CompFile::File::File() : exit_code(0)
 {
+    this->UserPermissions = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
 
 }
 
 int
-wrappers::file::File::get_exit_code()
+Izip::Wrappers::CompFile::File::get_exit_code()
 {
     return exit_code;
 }
 
+int
+Izip::Wrappers::CompFile::File::InteroptHandler(std::string_view msg,std::string_view dir)
+{
+    int status = EXIT_SUCCESS;
+    spdlog::error(msg);
+
+    if (rmdir(dir.data()) != 0) {
+        status = Izip::Universal::EXIT_CODE::REMOVAL_DIR_ERROR;
+        spdlog::critical(fmt::format("Failed to remove directory {}",dir));
+        return status;
+    }
+    else {
+        spdlog::info("output directory removed successfully!");
+    }
+    return status;
+}
 
 int
-wrappers::file::File::copy_data(struct archive* myarchive,struct archive* archivew)
+Izip::Wrappers::CompFile::File::copy_data(struct archive* myarchive,struct archive* archivew)
 {
-    int status_code = EXIT_CODE::SUCCESS;
+    int status_code = Izip::Universal::EXIT_CODE::SUCCESS;
     const void *buff;
     size_t size;
     la_int64_t offset;
@@ -45,19 +62,3 @@ wrappers::file::File::copy_data(struct archive* myarchive,struct archive* archiv
         }
     }
 }
-
-// temperarly decomissioned function, it is here for future use!
-// mode_t
-// wrappers::file::File::get_archive_type(std::string_view filename)
-// {
-//     struct archive_entry *probe_archive_entry = render_archive_entry();
-//
-//     std::string pathanme = archive_entry_pathname(probe_archive_entry);
-//
-//     fmt::print("{}",pathname);
-//
-//     mode_t type = archive_entry_filetype(probe_archive_entry);
-//
-//     return type;
-// }
-

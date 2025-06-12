@@ -2,26 +2,26 @@
 #include <array>
 #include "Ihelp.h"
 
-constexpr int PARAM_LENGTH   = 5;
-constexpr int GENERALL_SIZE = 1;
+constexpr int PARAM_LENGTH   = 6;
+constexpr int GENERAL_SIZE = 1;
 
-namespace help
+namespace Izip::Wrappers::CompHelp
 {
-    class Help : public help::Ihelp
+    class Help : public Ihelp
     {
     public:
         Help() = default;
-        std::string param_message_descriptor(std::size_t selector) override;
-        std::string param_symbol_descriptor(std::size_t selector)   override;
+        std::string param_message_descriptor(std::size_t selector)   override;
+        std::string param_symbol_descriptor(std::size_t selector)    override;
         std::string general_message_descriptor(std::size_t selector) override;
 
         const std::array<const char*, PARAM_LENGTH> PARAM_MESSAGE_DESCRIPTOR =
         {
             "Returns the current release build version.",
             "Takes file-path/filename for decompression",
-	    //"Processes archives recursively such as feks folders."
             "Takes file-path/filename for compression",
-            "prints spesified input string, to test basic io functionality.",
+            "Processes archives recursively such as feks folders.",
+            "Spesify file permssions for output file. Default: 700",
             "Selection of algorithms."
         };
 
@@ -29,14 +29,14 @@ namespace help
         {
             "-v, --verison",
             "-d, --decompress",
-            //"-r, --recursive",
             "-c, --compress",
-            "-p, --print",
+            "-r, --recursive",
+            "-p, --permissions",
             "-a, --algorithm"
 
         };
 
-        const std::array<const char*,GENERALL_SIZE> GENERAL_MESSAGE =
+        const std::array<const char*,GENERAL_SIZE> GENERAL_MESSAGE =
         {
             "Ligth-weigth program for compressing and uncompressing zip and tarball files."
         };
