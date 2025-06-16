@@ -25,6 +25,8 @@ namespace Izip::Wrappers::CompFile
         int
         copy_data(struct archive* arcive,struct archive* archivew);
 
+        int FileCompress(std::string_view filename,mode_t FilePermissions) override;
+
         int
         get_exit_code() override;
         ~File() override = default;

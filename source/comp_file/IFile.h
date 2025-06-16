@@ -13,7 +13,8 @@ namespace Izip::Wrappers::CompFile
         virtual archive_entry* render_archive_entry()      = 0;
         virtual int
         InteroptHandler(std::string_view msg,std::string_view dir) = 0;
-
+        virtual int
+        FileCompress(std::string_view filename,mode_t FilePermissions) = 0;
         virtual ~IFile() = default;
         virtual int
         get_exit_code() = 0;

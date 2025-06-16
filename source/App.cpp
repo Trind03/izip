@@ -21,8 +21,8 @@ namespace Izip
                 File->recursive_decompression(File->filename);
                 return this->exit_code;
             }
-            else
-                File->decompress_archive(File->filename);
+
+            File->decompress_archive(File->filename);
         }
 
         return exit_code;
