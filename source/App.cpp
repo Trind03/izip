@@ -23,6 +23,7 @@ namespace Izip
             }
             else
                 File->decompress_archive(File->filename);
+
         }
 
         return exit_code;

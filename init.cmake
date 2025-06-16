@@ -11,6 +11,7 @@ set(SOURCES
     ${SOURCE_DIR}/comp_help/Help.cpp
     ${SOURCE_DIR}/comp_file/archive_computation.cpp
     ${SOURCE_DIR}/comp_file/recursive_processing.cpp
+    ${SOURCE_DIR}/comp_file/FileCompression.cpp
 )
 
 set(TEST_SOURCES
