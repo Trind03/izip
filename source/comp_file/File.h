@@ -7,7 +7,7 @@
 
 namespace Izip::Wrappers::CompFile
 {
-    class File final : public Izip::Wrappers::CompFile::IFile
+    class File : public Izip::Wrappers::CompFile::IFile
     {
     public:
         File();
@@ -24,6 +24,9 @@ namespace Izip::Wrappers::CompFile
 
         int
         copy_data(struct archive* arcive,struct archive* archivew);
+
+        int
+        FileCompress(std::string_view filename,mode_t FilePermissions) override;
 
         int
         get_exit_code() override;
