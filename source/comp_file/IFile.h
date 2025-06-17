@@ -19,7 +19,7 @@ namespace Izip::Wrappers::CompFile
         virtual int
         get_exit_code() = 0;
         std::string filename;
-        bool recursive      { false };
+        bool recursive         { false };
         mode_t UserPermissions {   0   };
     };
 }

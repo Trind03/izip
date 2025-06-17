@@ -29,7 +29,7 @@ namespace Izip::Wrappers::CompFile
 
         int
         get_exit_code() override;
-        ~File() override = default;
+        ~File() = default;
 
         std::string filename = "";
         std::string pathname = "";
