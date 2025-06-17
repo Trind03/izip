@@ -50,4 +50,6 @@ include_directories(${COMP_CMAKE_SOURCE})
 # Direct compiler options.
 
 add_compile_options("-std=c++20")
-add_compile_options("-WCL4")
+add_compile_options("-g")
+add_compile_options("-pedantic")
+add_compile_options("-Wextra")

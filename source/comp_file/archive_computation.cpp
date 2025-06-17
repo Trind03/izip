@@ -1,13 +1,8 @@
 #include <spdlog/spdlog.h>
-#include <fmt/core.h>
 #include <archive.h>
 #include <archive_entry.h>
 #include "File.h"
 #include "universal/exit_codes.hpp"
-#include <filesystem>
-
-
-
 
 archive_entry*
 Izip::Wrappers::CompFile::File::render_archive_entry()
@@ -20,16 +15,13 @@ Izip::Wrappers::CompFile::File::render_archive_entry()
     return p_archive_entry;
 }
 
-
-
 int
 Izip::Wrappers::CompFile::File::decompress_archive(std::string_view filename)
 {
-    constexpr int EXPRECTED_BLOCK_SIZE = 128;
     int status_code = Izip::Universal::EXIT_CODE::SUCCESS;
     int flags       = 0;
 
-    flags  = ARCHIVE_EXTRACT_TIME;
+    flags =  ARCHIVE_EXTRACT_TIME;
     flags |= ARCHIVE_EXTRACT_ACL;
     flags |= ARCHIVE_EXTRACT_PERM;
     flags |= ARCHIVE_EXTRACT_FFLAGS;
@@ -81,7 +73,7 @@ Izip::Wrappers::CompFile::File::decompress_archive(std::string_view filename)
 
         if (status_code < ARCHIVE_OK)
         {
-            spdlog::warn("NOK!");
+            spdlog::error("NOK!");
         }
 
         if (status_code < ARCHIVE_WARN)
@@ -110,25 +102,13 @@ Izip::Wrappers::CompFile::File::decompress_archive(std::string_view filename)
                 return status_code;
         }
 
-
         exit_code = archive_write_finish_entry(processed_archive);
 
         if(exit_code != Izip::Universal::EXIT_CODE::SUCCESS)
             spdlog::error("Unknown issue finishing up, in last iteration");
 
         return status_code;
-
-        if (status_code < ARCHIVE_OK)
-            spdlog::warn("NOK!");
-
-        if (status_code < ARCHIVE_WARN)
-            return status_code;
-
     }
-
-
-
-
 
     archive_read_close(current_archive);
     archive_read_free(current_archive);
