@@ -32,7 +32,7 @@ Generate project files
 
 ``cmake -S . -B ./bin``
 
-Build - __Optional__ for multithreaded build
+Build - __Optionally__ you can append for multithreaded builds
 ``-j 5``
 
 ``cmake --build ./bin ``
