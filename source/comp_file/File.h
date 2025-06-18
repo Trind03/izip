@@ -7,7 +7,7 @@
 
 namespace Izip::Wrappers::CompFile
 {
-    class File : public Izip::Wrappers::CompFile::IFile
+    class File final : public Izip::Wrappers::CompFile::IFile
     {
     public:
         File();
