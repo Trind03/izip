@@ -1,7 +1,7 @@
-# Project introduction
+# Project introduction👋
 Welcome to izip's github page! Izip is easy to use lightweight cross-platform and multi-algorithm support file-compression and decompression software.
 
-# Nice to know's
+# Nice to know's ⁉️
  - as of 18.06.2025 the software only is stable on macosx and linux.
  - The recursive flag for recursively processing an archive is an temerary solution for decompressing folders, an more automatic solution is under development!
  - as of 10.06.2025 the project only support decompression of archives.
@@ -17,7 +17,7 @@ Welcome to izip's github page! Izip is easy to use lightweight cross-platform an
  - Incicators - Relativly advanced library for developing fancy status-bars for cli applications.
 
 
-## How to build & install
+## Clone & install dependencies ⏬
 Clone github project repository
 
 ``git clone https://github.com/Trind03/izip.git``
@@ -27,7 +27,7 @@ to keep it consistent cross-platform
 
 ``git submodule update --init --recursive``
 
-## Build and install
+## Build and install 👾
 Generate project files
 
 ``cmake -S . -B ./bin``
