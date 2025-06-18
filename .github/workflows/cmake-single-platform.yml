@@ -17,7 +17,7 @@ jobs:
       run: git submodule update --init --recursive
 
     - name: Generate_project_files
-      run: cmake -B ${{github.workspace}}/build ${{github.workspace}} -j 100
+      run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
 
     - name: Compile
       run: cmake --build ${{github.workspace}}/build
