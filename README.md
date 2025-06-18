@@ -1,4 +1,4 @@
-# izip
+# Project introduction 
 
 ## Techlologies 🌟
  - [LibArchive](https://www.libarchive.org/) - C library for advanced compression & decompression of archives.
