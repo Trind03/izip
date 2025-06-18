@@ -45,7 +45,7 @@ Izip::Wrappers::CompFile::File::decompress_archive(std::string_view filename)
     archive_write_disk_set_standard_lookup(processed_archive);
 
 
-    if (archive_read_open_filename(current_archive, filename.data(), EXPRECTED_BLOCK_SIZE) == ARCHIVE_OK)
+    if (archive_read_open_filename(current_archive, filename.data(), 125) == ARCHIVE_OK)
         spdlog::info("File opened successfully!");
 
     else
