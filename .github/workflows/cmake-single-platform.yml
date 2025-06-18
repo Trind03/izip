@@ -23,7 +23,7 @@ jobs:
       run: cmake --build ${{github.workspace}}/build
 
     - name: Run program
-      run: ${{github.workspace}}/build/izip
+      run: ${{github.workspace}}/build/izip -v
 
     - name: Run tests
       run: ${{github.workspace}}/build/test
