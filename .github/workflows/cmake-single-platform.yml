@@ -1,4 +1,4 @@
-name: CMake on a single platform
+name: izip-workflow
 
 on:
   - pull_request
@@ -10,7 +10,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
 
@@ -19,6 +18,13 @@ jobs:
 
     - name: Generate_project_files
       run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
-    - name: Build
+
+    - name: Compile
       run: cmake --build ${{github.workspace}}/build
+
+    - name: Run program
+      run: ${{github.workspace}}/build/izip
+
+    - name: Run tests
+      run: ${{github.workspace}}/build/test
 
