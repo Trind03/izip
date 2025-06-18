@@ -6,8 +6,8 @@ Welcome to izip's github page! Izip is easy to use lightweight cross-platform an
  - The recursive flag for recursively processing an archive is an temerary solution for decompressing folders, an more automatic solution is under development!
  - as of 10.06.2025 the project only support decompression of archives.
 
-## Available command-line args.
-``
+## Available command-line args 😜
+```
     OPTIONS:
         -h,     --help              Print this help message and exit 
         -v,     --verison           Display program version information and exit 
@@ -15,7 +15,7 @@ Welcome to izip's github page! Izip is easy to use lightweight cross-platform an
         -c,     --compress TEXT     Takes file-path/filename for compression 
         -r,     --recursive         Processes archives recursively such as feks folders. 
         -p,     --permissions UINT  Spesify file permssions for output file. Default: 700
-``
+```
 
 
 ## Techlologies 🌟
