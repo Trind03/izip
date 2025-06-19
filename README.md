@@ -19,7 +19,7 @@ Welcome to izip's github page! Izip is easy to use lightweight cross-platform an
 
 
 ## Techlologies 🌟
- - [LibArchive](https://www.libarchive.org/) - C library for advanced compression & decompression of archives.
+ - [Libarchive](https://www.libarchive.org/) - C library for advanced compression & decompression of archives.
  - [Fmt](https://fmt.dev/) - Text formatting library for C++.
  - [SpdLog](https://cppget.org/spdlog) - C++ logging library for simple structured function set.
  - [GoogleTest](https://google.github.io/googletest/) - Mocking & Unittest library developed by google.
