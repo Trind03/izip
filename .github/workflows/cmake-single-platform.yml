@@ -29,7 +29,8 @@ jobs:
           path: ${{github.workspace}}
 
       - name: Generate_project_files
-        run: ls fmt
+        #cmake -B ${{github.workspace}}/build ${{github.workspace}}
+        run: ls ${{github.workspace}}/fmt
 
   Build:
     needs: "Generate-project-files"
