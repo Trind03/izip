@@ -17,7 +17,7 @@ jobs:
           path: ${{github.workspace}}
 
       - name: "Configurating dependencies"
-        run: touch pussy.txt
+        run: touch ${{github.workspace}}/pussy.txt
 
   Generate-project-files:
     needs: "Initialize-dependenies"
