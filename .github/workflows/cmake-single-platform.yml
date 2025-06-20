@@ -35,6 +35,7 @@ jobs:
           key: ${{runner.os}}
 
       - name: Generate_project_files
+        run: ls ${{github.workspace}}/fmt
         #cmake -B ${{github.workspace}}/build ${{github.workspace}}
 
   Build:
