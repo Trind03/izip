@@ -16,7 +16,13 @@ jobs:
         env:
           cache-name: "global-cache"
 
-          path: ${{github.workspace}}
+          path: |
+            ${{github.workspace}}/build
+            ${{github.workspace}}/googletest
+            ${{github.workspace}}/spdlog
+            ${{github.workspace}}/libarchive
+            ${{github.workspace}}/fmt
+
           key: ${{runner.os}}
 
       - name: "Configurating dependencies"
@@ -31,7 +37,13 @@ jobs:
         env:
           cache-name: "global-cache"
 
-          path: ${{github.workspace}}
+          path: |
+            ${{github.workspace}}/build
+            ${{github.workspace}}/googletest
+            ${{github.workspace}}/spdlog
+            ${{github.workspace}}/libarchive
+            ${{github.workspace}}/fmt
+
           key: ${{runner.os}}
 
       - name: Generate_project_files
