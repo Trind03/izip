@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: "."
+          path: ${{github.workspace}}
 
       - name: Generate_project_files
         run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
