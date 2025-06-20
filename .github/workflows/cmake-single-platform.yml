@@ -7,74 +7,23 @@ on:
 env:
   runs-on: ubuntu-latest
   BUILD_TYPE: Debug
-  cache-name: "global-cache"
-
-  path: |
-    ${{github.workspace}}/build
-    ${{github.workspace}}/googletest
-    ${{github.workspace}}/spdlog
-    ${{github.workspace}}/libarchive
-    ${{github.workspace}}/fmt
-
-  key: ${{runner.os}}
 
 jobs:
   Initialize-dependenies:
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v4"
-        env:
-          cache-name: "global-cache"
-
-          path: |
-            ${{github.workspace}}/build
-            ${{github.workspace}}/googletest
-            ${{github.workspace}}/spdlog
-            ${{github.workspace}}/libarchive
-            ${{github.workspace}}/fmt
-
-          key: ${{runner.os}}
 
       - name: "Configurating dependencies"
         run: git submodule update --init --recursive
 
-  Generate-project-files:
-    needs: "Initialize-dependenies"
-
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/checkout@v4
-        env:
-          cache-name: "global-cache"
-
-          path: |
-            ${{github.workspace}}/build
-            ${{github.workspace}}/googletest
-            ${{github.workspace}}/spdlog
-            ${{github.workspace}}/libarchive
-            ${{github.workspace}}/fmt
-
-          key: ${{runner.os}}
 
       - name: Generate_project_files
         run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
-        #cmake -B ${{github.workspace}}/build ${{github.workspace}}
-
-  Build:
-    needs: "Generate-project-files"
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
 
       - name: Compile
         run: cmake --build ${{github.workspace}}/build
-
-  Execute:
-    needs: "Build"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
       - name: Run program
         run: ${{github.workspace}}/build/izip -v
@@ -82,12 +31,5 @@ jobs:
       - name: Run tests
         run: ${{github.workspace}}/build/test
 
-  Tests:
-    needs: "Build"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
       - name: Run tests
         run: ${{github.workspace}}/build/test
-
