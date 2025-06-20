@@ -22,7 +22,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: ${{github.workspace}}
+          path: |
+            ${{github.workspace}}/libarchive
+            ${{github.workspace}}/fmt
+            ${{github.workspace}}/googletest
+            ${{github.workspace}}/spdlog
+            ${{github.workspace}}/build
 
       - name: Generate_project_files
         run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
