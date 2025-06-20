@@ -7,6 +7,16 @@ on:
 env:
   runs-on: ubuntu-latest
   BUILD_TYPE: Debug
+  cache-name: "global-cache"
+
+  path: |
+    ${{github.workspace}}/build
+    ${{github.workspace}}/googletest
+    ${{github.workspace}}/spdlog
+    ${{github.workspace}}/libarchive
+    ${{github.workspace}}/fmt
+
+  key: ${{runner.os}}
 
 jobs:
   Initialize-dependenies:
