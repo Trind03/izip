@@ -14,9 +14,9 @@ jobs:
     steps:
       - uses: "actions/checkout@v4"
         with:
-          path:
-            - ${{github.workspace}}/googletest
-            - ${{github.workspace}}/fmt
+          path: |
+            ${{github.workspace}}/googletest
+            ${{github.workspace}}/fmt
 
       - name: "Configurating dependencies"
         run: touch ${{github.workspace}}/pussy.txt
