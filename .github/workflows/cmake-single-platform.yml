@@ -23,8 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        env:
+          cache-name: mystuff
         with:
           path: ${{github.workspace}}
+          #key: "mystuff"
 
       - name: Generate_project_files
         run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
