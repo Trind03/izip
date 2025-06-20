@@ -14,12 +14,10 @@ jobs:
     steps:
       - uses: "actions/checkout@v4"
         with:
-          path: |
-            ${{github.workspace}}/googletest
-            ${{github.workspace}}/fmt
+          path: ${{github.workspace}}
 
       - name: "Configurating dependencies"
-        run: touch ${{github.workspace}}/pussy.txt
+        run: git submodule update --init --recursive
 
   Generate-project-files:
     needs: "Initialize-dependenies"
@@ -31,7 +29,7 @@ jobs:
           path: ${{github.workspace}}
 
       - name: Generate_project_files
-        run: ls -lah
+        run: ls fmt
 
   Build:
     needs: "Generate-project-files"
