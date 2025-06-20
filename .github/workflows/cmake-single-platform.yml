@@ -1,24 +1,32 @@
-name: CMake on a single platform
+name: izip-workflow
 
 on:
   - pull_request
   - push
 
 env:
+  runs-on: ubuntu-latest
   BUILD_TYPE: Debug
 
 jobs:
-  build:
+  Initialize-dependenies:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: "actions/checkout@v4"
 
-    - name: configurating_dependencies
-      run: git submodule update --init --recursive
+      - name: "Configurating dependencies"
+        run: git submodule update --init --recursive
 
-    - name: Generate_project_files
-      run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
-    - name: Build
-      run: cmake --build ${{github.workspace}}/build
+      - uses: actions/checkout@v4
 
+      - name: Generate_project_files
+        run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
+
+      - name: Compile
+        run: cmake --build ${{github.workspace}}/build
+
+      - name: Run program
+        run: ${{github.workspace}}/build/izip -v
+
+      - name: Run tests
+        run: ${{github.workspace}}/build/test

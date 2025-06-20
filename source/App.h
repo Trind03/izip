@@ -19,7 +19,7 @@ namespace Izip
         App& operator=(App&)   = delete;
 
         int get_exit_code()              override;
-        int start(int argc, char **argv) override;
+        int start(const int argc, char **argv) override;
 
         std::unique_ptr<CLI::App> Arg_parser;
 
