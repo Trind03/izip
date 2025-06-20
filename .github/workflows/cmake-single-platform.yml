@@ -14,7 +14,9 @@ jobs:
     steps:
       - uses: "actions/checkout@v4"
         with:
-          path: ${{github.workspace}}/pussy.txt
+          path:
+            - ${{github.workspace}}/googletest
+            - ${{github.workspace}}/fmt
 
       - name: "Configurating dependencies"
         run: touch ${{github.workspace}}/pussy.txt
@@ -26,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: ${{github.workspace}}/pussy.txt
+          path: ${{github.workspace}}
 
       - name: Generate_project_files
         run: ls -lah
