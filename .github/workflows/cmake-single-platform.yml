@@ -13,12 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v4"
+        env:
+          cache-name: "mylilcache"
+
+          path: ${{github.workspace}}/fmt
+          key: ${{runner.os}}
 
       - name: "Configurating dependencies"
         run: git submodule update --init --recursive
-
-        with:
-          path: ${{github.workspace}}
 
   Generate-project-files:
     needs: "Initialize-dependenies"
@@ -26,11 +28,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        env:
+          cache-name: "mylilcache"
+
+          path: ${{github.workspace}}/fmt
+          key: ${{runner.os}}
+
       - name: Generate_project_files
         #cmake -B ${{github.workspace}}/build ${{github.workspace}}
-        run: ls ${{github.workspace}}/fmt
-        with:
-          path: ${{github.workspace}}
 
   Build:
     needs: "Generate-project-files"
