@@ -13,8 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v4"
-    paths:
-      - .
 
       - name: "Configurating dependencies"
         run: git submodule update --init --recursive
@@ -24,8 +22,6 @@ jobs:
 
       steps:
         - uses: actions/checkout@v4
-      paths:
-        - .
 
         - name: Generate_project_files
           run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
@@ -37,8 +33,6 @@ jobs:
       steps:
         - uses: actions/checkout@v4
 
-      paths:
-        - .
         - name: Compile
           run: cmake --build ${{github.workspace}}/build
 
@@ -46,8 +40,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-    paths:
-      - .
 
       - name: Run program
         run: ${{github.workspace}}/build/izip -v
@@ -59,8 +51,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-    paths:
-      - .
 
       - name: Run tests
         run: ${{github.workspace}}/build/test
