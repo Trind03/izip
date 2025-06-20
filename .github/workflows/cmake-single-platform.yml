@@ -14,9 +14,9 @@ jobs:
     steps:
       - uses: "actions/checkout@v4"
         env:
-          cache-name: "mylilcache"
+          cache-name: "global-cache"
 
-          path: ${{github.workspace}}/fmt
+          path: ${{github.workspace}}
           key: ${{runner.os}}
 
       - name: "Configurating dependencies"
@@ -29,13 +29,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         env:
-          cache-name: "mylilcache"
+          cache-name: "global-cache"
 
-          path: ${{github.workspace}}/fmt
+          path: ${{github.workspace}}
           key: ${{runner.os}}
 
       - name: Generate_project_files
-        run: ls ${{github.workspace}}/fmt
+        run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
         #cmake -B ${{github.workspace}}/build ${{github.workspace}}
 
   Build:
