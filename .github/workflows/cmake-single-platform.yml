@@ -7,28 +7,25 @@ on:
 env:
   runs-on: ubuntu-latest
   BUILD_TYPE: Debug
-  paths:
-    - .
 
 jobs:
   Initialize-dependenies:
     runs-on: ubuntu-latest
-    volumes:
+    steps:
+      - uses: "actions/checkout@v4"
+    paths:
       - .
 
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: configurating_dependencies
+      - name: "Configurating dependencies"
         run: git submodule update --init --recursive
 
     Generate-project-files:
       runs-on: ubuntu-latest
-      volumes:
-        - .
 
       steps:
         - uses: actions/checkout@v4
+      paths:
+        - .
 
         - name: Generate_project_files
           run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
@@ -36,22 +33,21 @@ jobs:
 
     Build:
       runs-on: ubuntu-latest
-      volumes:
-        - .
 
       steps:
         - uses: actions/checkout@v4
 
+      paths:
+        - .
         - name: Compile
           run: cmake --build ${{github.workspace}}/build
 
   Execute:
     runs-on: ubuntu-latest
-    volumes:
-      - .
-
     steps:
       - uses: actions/checkout@v4
+    paths:
+      - .
 
       - name: Run program
         run: ${{github.workspace}}/build/izip -v
@@ -61,11 +57,10 @@ jobs:
 
   Tests:
     runs-on: ubuntu-latest
-    volumes:
-      - .
-
     steps:
       - uses: actions/checkout@v4
+    paths:
+      - .
 
       - name: Run tests
         run: ${{github.workspace}}/build/test
