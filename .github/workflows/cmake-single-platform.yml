@@ -13,13 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v4"
-        env:
-          cache-name: mystuff
         with:
           path: ${{github.workspace}}
 
       - name: "Configurating dependencies"
-        run: git submodule update --init --recursive
+        run: touch pussy.txt
 
   Generate-project-files:
     needs: "Initialize-dependenies"
@@ -27,13 +25,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        env:
-          cache-name: mystuff
         with:
           path: ${{github.workspace}}
 
       - name: Generate_project_files
-        run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
+        run: ls -lah
 
   Build:
     needs: "Generate-project-files"
