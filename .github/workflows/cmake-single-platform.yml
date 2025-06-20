@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: "."
 
       - name: Generate_project_files
         run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
