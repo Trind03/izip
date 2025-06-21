@@ -46,7 +46,7 @@ Izip::Wrappers::CompFile::File::recursive_decompression(std::string_view filenam
     }
     else
     {
-        spdlog::info("File opening failure.");
+        spdlog::error("File opening failure.");
     }
 
     spdlog::info("Processing supplied folder!");

@@ -1,7 +1,6 @@
 #include <CLI/CLI.hpp>
-#include <memory>
-#include "IFile.h"
-#include "Ihelp.h"
+#include "Help.h"
+#include "File.h"
 
 
 namespace Izip
@@ -23,10 +22,10 @@ namespace Izip
 
     private:
         // Properties
-        std::unique_ptr<Izip::Wrappers::CompHelp::Ihelp> Help_menu      = nullptr;
-        std::unique_ptr<Izip::Wrappers::CompFile::IFile> File           = nullptr;
+        Wrappers::CompHelp::Help& Help_menu = Wrappers::CompHelp::Help::getInstance();
+        Wrappers::CompFile::File& File = Wrappers::CompFile::File::getInstance();
         int exit_code = 0;
-        static constexpr const char* VERSION  = "1.0";
+        static constexpr auto VERSION  = "1.0";
 
         // Options
         CLI::Option *OptVersion          = nullptr;
