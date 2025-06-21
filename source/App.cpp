@@ -32,6 +32,4 @@ namespace Izip
     {
         return exit_code;
     }
-
-
 }

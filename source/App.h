@@ -1,6 +1,4 @@
 #include <CLI/CLI.hpp>
-#include <functional>
-#include "IApp.h"
 #include <memory>
 #include "IFile.h"
 #include "Ihelp.h"
@@ -8,18 +6,18 @@
 
 namespace Izip
 {
-    class App final : public IApp
+    class App
     {
     public:
         App();
-        ~App() override        = default;
+        ~App()                 = default;
         App(App&)              = delete;
         App(App&&)             = delete;
         App&& operator=(App&&) = delete;
         App& operator=(App&)   = delete;
 
-        int get_exit_code()              override;
-        int start(const int argc, char **argv) override;
+        int get_exit_code();
+        int start(const int argc, char **argv);
 
         std::unique_ptr<CLI::App> Arg_parser;
 
@@ -29,5 +27,12 @@ namespace Izip
         std::unique_ptr<Izip::Wrappers::CompFile::IFile> File           = nullptr;
         int exit_code = 0;
         static constexpr const char* VERSION  = "1.0";
+
+        // Options
+        CLI::Option *OptVersion          = nullptr;
+        CLI::Option *OptDecompress       = nullptr;
+        CLI::Option *OptCompress         = nullptr;
+        CLI::Option *OptRecursive        = nullptr;
+        CLI::Option *OptPermissions      = nullptr;
     };
 }
