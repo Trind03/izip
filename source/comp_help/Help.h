@@ -10,17 +10,17 @@ namespace Izip::Wrappers::CompHelp
     {
     public:
 
-        static Help& getInstance() {
-            static Help OneAndOnly;
-
-            return OneAndOnly;
+        static Help& getInstance()
+        {
+            static Help helpInstance;
+            return helpInstance;
         }
 
         std::string param_message_descriptor(std::size_t selector);
         std::string param_symbol_descriptor(std::size_t selector);
         std::string general_message_descriptor(std::size_t selector);
 
-        std::array<std::string, PARAM_LENGTH> PARAM_MESSAGE_DESCRIPTOR =
+        const std::array<std::string, PARAM_LENGTH> PARAM_MESSAGE_DESCRIPTOR =
         {
             "Returns the current release build version.",
             "Takes file-path/filename for decompression",
@@ -30,7 +30,7 @@ namespace Izip::Wrappers::CompHelp
             "Selection of algorithms."
         };
 
-        std::array<std::string, PARAM_LENGTH> PARAM_DESCRIPTOR =
+        const std::array<std::string, PARAM_LENGTH> PARAM_DESCRIPTOR =
         {
             "-v, --verison",
             "-d, --decompress",
@@ -41,7 +41,7 @@ namespace Izip::Wrappers::CompHelp
 
         };
 
-        std::array<std::string,GENERAL_SIZE> GENERAL_MESSAGE =
+        const std::array<std::string,GENERAL_SIZE> GENERAL_MESSAGE =
         {
             "Ligth-weigth program for compressing and uncompressing zip and tarball files."
         };

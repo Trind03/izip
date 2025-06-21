@@ -13,14 +13,7 @@ namespace Izip
         if (File.filename.c_str())
         {
             spdlog::info(fmt::format("detected file: {}",File.filename));
-
-            if (File.recursive)
-            {
-                File.recursive_decompression(File.filename);
-                return this->exit_code;
-            }
-            else
-                File.decompress_archive(File.filename);
+            File.decompress_archive(File.filename);
         }
 
         return exit_code;

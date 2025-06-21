@@ -1,6 +1,5 @@
 #include <string>
 #include "Help.h"
-#include "universal/exit_codes.hpp"
 
 namespace Izip::Wrappers::CompHelp
 {
