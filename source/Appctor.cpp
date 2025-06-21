@@ -23,9 +23,6 @@ namespace Izip
             this->OptDecompress = Arg_parser->add_option(Help_menu.param_symbol_descriptor(Universal::Spesifier::DECOMPRESS),
                         File.filename,Help_menu.param_message_descriptor(Universal::Spesifier::DECOMPRESS));
 
-            this->OptRecursive = Arg_parser->add_flag(Help_menu.param_symbol_descriptor(Universal::Spesifier::RECURSIVE),
-               File.recursive,Help_menu.param_message_descriptor(Universal::Spesifier::RECURSIVE));
-
         }
         catch(const CLI::ArgumentMismatch& myException)
         {
