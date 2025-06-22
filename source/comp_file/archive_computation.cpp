@@ -50,7 +50,7 @@ Izip::Wrappers::CompFile::FileComputation::decompress_archive(std::string_view f
     if (archive_read_open_filename(current_archive, filename.data(), buffer.size()) == ARCHIVE_OK)
     {
         spdlog::info("File opened successfully!");
-    }
+}
     else
     {
         spdlog::error("File opening failure.");
