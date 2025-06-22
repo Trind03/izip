@@ -8,13 +8,10 @@ Welcome to izip's github page! Izip is easy to use lightweight cross-platform an
 
 ## Available command-line args 😜
 ```
-    OPTIONS:
-        -h,     --help              Print this help message and exit 
-        -v,     --verison           Display program version information and exit 
-        -d,     --decompress TEXT   Takes file-path/filename for decompression 
-        -c,     --compress TEXT     Takes file-path/filename for compression 
-        -r,     --recursive         Processes archives recursively such as feks folders. 
-        -p,     --permissions UINT  Spesify file permssions for output file. Default: 700
+OPTIONS:
+  -h,     --help              Print this help message and exit 
+  -v,     --verison           Display program version information and exit 
+  -d,     --decompress TEXT   Takes file-path/filename for decompression
 ```
 
 

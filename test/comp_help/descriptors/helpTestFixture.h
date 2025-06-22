@@ -1,16 +1,13 @@
-#include <Help.h>
 #include <gtest/gtest.h>
+#include <Help.h>
 
-class param_descriptor : public ::testing::Test, public Izip::Wrappers::CompHelp::Help
+class helpTestFixture : public ::testing::Test
 {
     void SetUp() override
     {
-
     }
 
     void TearDown() override
     {
-
     }
-
 };

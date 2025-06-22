@@ -1,44 +1,34 @@
 #pragma once
 #include <array>
-#include "Ihelp.h"
 
-constexpr int PARAM_LENGTH   = 6;
+
+constexpr int PARAM_LENGTH   = 2;
 constexpr int GENERAL_SIZE = 1;
 
 namespace Izip::Wrappers::CompHelp
 {
-    class Help : public Ihelp
-    {
-    public:
-        Help() = default;
-        std::string param_message_descriptor(std::size_t selector)   override;
-        std::string param_symbol_descriptor(std::size_t selector)    override;
-        std::string general_message_descriptor(std::size_t selector) override;
 
-        const std::array<const char*, PARAM_LENGTH> PARAM_MESSAGE_DESCRIPTOR =
+        [[nodiscard]] std::string param_message_descriptor(size_t selector);
+        [[nodiscard]] std::string param_symbol_descriptor(size_t  selector);
+        [[nodiscard]] std::string general_message_descriptor(size_t selector);
+}
+
+namespace Izip::Wrappers::CompHelp::helpMessage
+{
+        const std::array<std::string, PARAM_LENGTH> PARAM_MESSAGE_DESCRIPTOR =
         {
-            "Returns the current release build version.",
-            "Takes file-path/filename for decompression",
-            "Takes file-path/filename for compression",
-            "Processes archives recursively such as feks folders.",
-            "Spesify file permssions for output file. Default: 700",
-            "Selection of algorithms."
+                "Returns the current release build version.",
+                "Takes archive-path for decompression.",
         };
 
-        const std::array<const char*, PARAM_LENGTH> PARAM_DESCRIPTOR =
+        const std::array<std::string, PARAM_LENGTH> PARAM_DESCRIPTOR =
         {
-            "-v, --verison",
-            "-d, --decompress",
-            "-c, --compress",
-            "-r, --recursive",
-            "-p, --permissions",
-            "-a, --algorithm"
-
+                "-v, --verison",
+                "-d, --decompress",
         };
 
-        const std::array<const char*,GENERAL_SIZE> GENERAL_MESSAGE =
+        const std::array<std::string,GENERAL_SIZE> GENERAL_MESSAGE =
         {
-            "Ligth-weigth program for compressing and uncompressing zip and tarball files."
+                "Ligth-weigth program for compressing and uncompressing zip and tarball files."
         };
-    };
 }

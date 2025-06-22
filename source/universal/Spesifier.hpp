@@ -5,11 +5,6 @@ namespace Izip::Universal
     {
         MYVERSION = 0,
         DECOMPRESS,
-        COMPRESS,
-        RECURSIVE,
-        PERMISSIONS,
-        PRINT,
-        ALGORITHM
     };
     enum GeneralSpesifier
     {

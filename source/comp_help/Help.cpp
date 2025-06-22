@@ -1,21 +1,31 @@
 #include <string>
 #include "Help.h"
-#include "universal/exit_codes.hpp"
+
 
 namespace Izip::Wrappers::CompHelp
 {
-    std::string Help::param_message_descriptor(std::size_t selector)
+    std::string param_message_descriptor(size_t selector)
     {
-        return selector < PARAM_MESSAGE_DESCRIPTOR.size() && selector >= 0 ? PARAM_MESSAGE_DESCRIPTOR[selector] : "";
+        if (selector >= helpMessage::PARAM_MESSAGE_DESCRIPTOR.size())
+            return "";
+
+        return helpMessage::PARAM_MESSAGE_DESCRIPTOR[selector];
     }
 
-    std::string Help::param_symbol_descriptor(std::size_t selector)
+    std::string param_symbol_descriptor(size_t selector)
     {
-        return selector < PARAM_DESCRIPTOR.size() && selector >= 0 ? PARAM_DESCRIPTOR[selector] : "";
+
+        if (selector >= helpMessage::PARAM_DESCRIPTOR.size())
+            return "";
+
+        return helpMessage::PARAM_DESCRIPTOR[selector];
     }
 
-    std::string Help::general_message_descriptor(std::size_t selector)
+    std::string general_message_descriptor(size_t selector)
     {
-        return selector < GENERAL_MESSAGE.size() && selector >= 0 ? GENERAL_MESSAGE[selector] : "";
+        if (selector >= helpMessage::GENERAL_MESSAGE.size())
+            return "";
+
+        return helpMessage::GENERAL_MESSAGE[selector];
     }
 }
