@@ -24,7 +24,7 @@ namespace Izip::Wrappers::CompHelp
         const std::array<std::string, PARAM_LENGTH> PARAM_MESSAGE_DESCRIPTOR =
         {
             "Returns the current release build version.",
-            "Takes file-path/filename for decompression",
+            "Takes archive-path for decompression.",
         };
 
         const std::array<std::string, PARAM_LENGTH> PARAM_DESCRIPTOR =
