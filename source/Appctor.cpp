@@ -20,12 +20,10 @@ namespace Izip
             Universal::GeneralSpesifier::PROGRAM_DESCRIPTION));
 
         try {
-            std::string x = param_symbol_descriptor(Universal::Spesifier::MYVERSION);
-
             this->OptVersion = Arg_parser->set_version_flag(param_symbol_descriptor(Universal::Spesifier::MYVERSION),VERSION);
 
             this->OptDecompress = Arg_parser->add_option(param_symbol_descriptor(Universal::Spesifier::DECOMPRESS),
-                        File.filename,param_message_descriptor(Universal::Spesifier::DECOMPRESS));
+            File.filename,param_message_descriptor(Universal::Spesifier::DECOMPRESS));
 
         }
         catch(const CLI::ArgumentMismatch& myException)

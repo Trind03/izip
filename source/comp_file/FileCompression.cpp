@@ -8,7 +8,7 @@
 
 namespace Izip::Wrappers::CompFile
 {
-    int FileComputation::fileCompression(std::string_view filename)
+    int FileComputation::compress(std::string_view filename)
     {
         int statusCode = 0;
         struct archive* Current_Archive = archive_write_new();

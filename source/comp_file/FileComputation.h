@@ -19,17 +19,12 @@ namespace Izip::Wrappers::CompFile
         archive_entry*
         render_archive_entry();
 
-        int
-        InteroptHandler(std::string_view msg,std::string_view dir);
+        int InteroptHandler(std::string_view msg,std::string_view dir);
 
-        int
-        fileCompression(std::string_view filename);
+        [[nodiscard]] int compress(std::string_view filename);
 
-        int
-        FileCompress(std::string_view filename,mode_t FilePermissions);
 
-        int
-        get_exit_code() const;
+        [[nodiscard]] int get_exit_code() const;
 
         std::string filename;
         std::string pathname;

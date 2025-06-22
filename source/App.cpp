@@ -4,7 +4,7 @@
 
 namespace Izip
 {
-    int App::start(const int argc,char **argv) const
+    int App::start(int argc,char **argv) const
     {
         CLI11_PARSE(*Arg_parser,argc,Arg_parser->ensure_utf8(argv));
 
@@ -17,7 +17,7 @@ namespace Izip
         return exit_code;
     }
 
-    int App::get_exit_code()
+    int App::get_exit_code() const
     {
         return exit_code;
     }

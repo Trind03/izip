@@ -15,7 +15,7 @@ namespace Izip
         App&& operator=(App&&) = delete;
         App& operator=(App&)   = delete;
 
-        int get_exit_code();
+        int get_exit_code() const;
         int start(int argc, char **argv) const;
 
         std::unique_ptr<CLI::App> Arg_parser;
@@ -24,7 +24,7 @@ namespace Izip
         // Properties
         Wrappers::CompFile::FileComputation& File = Wrappers::CompFile::FileComputation::getInstance();
         int exit_code = 0;
-        static constexpr auto VERSION  = "1.0";
+        std::string VERSION = "1.0";
 
         // Options
         CLI::Option *OptVersion          = nullptr;
