@@ -33,8 +33,8 @@ namespace Izip::Wrappers::CompFile
 
         std::string filename;
         std::string pathname;
-        bool recursive         { false };
-        mode_t UserPermissions {   0   };
+        bool recursive  = false;
+        mode_t UserPermissions = 0;
         int exit_code;
     private:
         FileComputation();
