@@ -38,7 +38,7 @@ Izip::Wrappers::CompFile::FileComputation::decompress_archive(std::string_view f
     processed_archive       = archive_write_disk_new();
     current_archive_entry   = render_archive_entry();
 
-    spdlog::debug("Recrusive archive handlers initialized!");
+    spdlog::debug("Archive handlers initialized!");
 
     archive_read_support_format_all(current_archive);
     archive_read_support_filter_all(current_archive);
