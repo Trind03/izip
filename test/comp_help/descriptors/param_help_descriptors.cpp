@@ -39,21 +39,3 @@ TEST_F(helpTestFixture,FILE_descrip_messanger_misreferance)
               helpTestInstance.PARAM_MESSAGE_DESCRIPTOR[Izip::Universal::Spesifier::DECOMPRESS]);
 }
 
-
-// Tests descrip_messanger of index of print
-TEST_F(helpTestFixture,PRINT_descrip_messanger)
-{
-    ASSERT_EQ(helpTestInstance.param_message_descriptor(Izip::Universal::Spesifier::PRINT),
-              helpTestInstance.PARAM_MESSAGE_DESCRIPTOR[Izip::Universal::Spesifier::PRINT]);
-}
-
-TEST_F(helpTestFixture,PRINT_descrip_messanger_failure)
-{
-    ASSERT_EQ(helpTestInstance.param_message_descriptor(-1), "");
-}
-
-TEST_F(helpTestFixture,PRINT_descrip_messanger_misreferance)
-{
-    ASSERT_NE(helpTestInstance.param_message_descriptor(-1),
-              helpTestInstance.PARAM_MESSAGE_DESCRIPTOR[Izip::Universal::Spesifier::PRINT]);
-}

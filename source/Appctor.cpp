@@ -17,6 +17,7 @@ namespace Izip
             Universal::GeneralSpesifier::PROGRAM_DESCRIPTION));
 
         try {
+            std::string x = Help_menu.param_symbol_descriptor(Universal::Spesifier::MYVERSION);
 
             this->OptVersion = Arg_parser->set_version_flag(Help_menu.param_symbol_descriptor(Universal::Spesifier::MYVERSION),VERSION);
 
