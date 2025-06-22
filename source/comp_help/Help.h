@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 
+
 constexpr int PARAM_LENGTH   = 6;
 constexpr int GENERAL_SIZE = 1;
 
@@ -10,15 +11,15 @@ namespace Izip::Wrappers::CompHelp
     {
     public:
 
-        static Help& getInstance()
+        [[nodiscard]] static Help& getInstance()
         {
             static Help helpInstance;
             return helpInstance;
         }
 
-        std::string param_message_descriptor(std::size_t selector);
-        std::string param_symbol_descriptor(std::size_t selector);
-        std::string general_message_descriptor(std::size_t selector);
+        [[nodiscard]] std::string param_message_descriptor(size_t selector)   const;
+        [[nodiscard]] std::string param_symbol_descriptor(size_t  selector)    const;
+        [[nodiscard]] std::string general_message_descriptor(size_t selector) const;
 
         const std::array<std::string, PARAM_LENGTH> PARAM_MESSAGE_DESCRIPTOR =
         {

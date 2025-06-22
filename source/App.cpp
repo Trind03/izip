@@ -1,4 +1,3 @@
-#include "universal/exit_codes.hpp"
 #include <spdlog/spdlog.h>
 #include "Help.h"
 #include "App.h"
