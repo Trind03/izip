@@ -4,28 +4,28 @@
 
 namespace Izip::Wrappers::CompHelp
 {
-    std::string Help::param_message_descriptor(size_t selector) const
+    std::string param_message_descriptor(size_t selector)
     {
-        if (selector > this->PARAM_MESSAGE_DESCRIPTOR.size())
+        if (selector >= helpMessage::PARAM_MESSAGE_DESCRIPTOR.size())
             return "";
 
-        return this->PARAM_MESSAGE_DESCRIPTOR[selector];
+        return helpMessage::PARAM_MESSAGE_DESCRIPTOR[selector];
     }
 
-    std::string Help::param_symbol_descriptor(size_t selector) const
+    std::string param_symbol_descriptor(size_t selector)
     {
 
-        if (selector > this->PARAM_DESCRIPTOR.size())
+        if (selector >= helpMessage::PARAM_DESCRIPTOR.size())
             return "";
 
-        return this->PARAM_DESCRIPTOR[selector];
+        return helpMessage::PARAM_DESCRIPTOR[selector];
     }
 
-    std::string Help::general_message_descriptor(size_t selector) const
+    std::string general_message_descriptor(size_t selector)
     {
-        if (selector > this->GENERAL_MESSAGE.size())
+        if (selector >= helpMessage::GENERAL_MESSAGE.size())
             return "";
 
-        return this->GENERAL_MESSAGE[selector];
+        return helpMessage::GENERAL_MESSAGE[selector];
     }
 }

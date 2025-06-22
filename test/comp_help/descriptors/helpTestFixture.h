@@ -10,6 +10,4 @@ class helpTestFixture : public ::testing::Test
     void TearDown() override
     {
     }
-public:
-    Izip::Wrappers::CompHelp::Help helpTestInstance = Izip::Wrappers::CompHelp::Help::getInstance();
 };

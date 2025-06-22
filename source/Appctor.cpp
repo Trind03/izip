@@ -7,22 +7,25 @@
 #include "comp_help/Help.h"
 #include "universal/Spesifier.hpp"
 
+using namespace Izip::Wrappers::CompHelp;
+
+
 namespace Izip
 {
     App::App()
     {
         exit_code  = Universal::EXIT_CODE::SUCCESS;
 
-        Arg_parser = std::make_unique<CLI::App>(Help_menu.general_message_descriptor(
+        Arg_parser = std::make_unique<CLI::App>(general_message_descriptor(
             Universal::GeneralSpesifier::PROGRAM_DESCRIPTION));
 
         try {
-            std::string x = Help_menu.param_symbol_descriptor(Universal::Spesifier::MYVERSION);
+            std::string x = param_symbol_descriptor(Universal::Spesifier::MYVERSION);
 
-            this->OptVersion = Arg_parser->set_version_flag(Help_menu.param_symbol_descriptor(Universal::Spesifier::MYVERSION),VERSION);
+            this->OptVersion = Arg_parser->set_version_flag(param_symbol_descriptor(Universal::Spesifier::MYVERSION),VERSION);
 
-            this->OptDecompress = Arg_parser->add_option(Help_menu.param_symbol_descriptor(Universal::Spesifier::DECOMPRESS),
-                        File.filename,Help_menu.param_message_descriptor(Universal::Spesifier::DECOMPRESS));
+            this->OptDecompress = Arg_parser->add_option(param_symbol_descriptor(Universal::Spesifier::DECOMPRESS),
+                        File.filename,param_message_descriptor(Universal::Spesifier::DECOMPRESS));
 
         }
         catch(const CLI::ArgumentMismatch& myException)

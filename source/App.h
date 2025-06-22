@@ -22,7 +22,6 @@ namespace Izip
 
     private:
         // Properties
-        Wrappers::CompHelp::Help& Help_menu = Wrappers::CompHelp::Help::getInstance();
         Wrappers::CompFile::File& File = Wrappers::CompFile::File::getInstance();
         int exit_code = 0;
         static constexpr auto VERSION  = "1.0";
