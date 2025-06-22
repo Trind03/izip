@@ -4,7 +4,7 @@
 
 namespace Izip
 {
-    int App::start(const int argc,char **argv)
+    int App::start(const int argc,char **argv) const
     {
         CLI11_PARSE(*Arg_parser,argc,Arg_parser->ensure_utf8(argv));
 

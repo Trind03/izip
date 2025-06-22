@@ -1,6 +1,6 @@
 #include <CLI/CLI.hpp>
 #include "Help.h"
-#include "File.h"
+#include "FileComputation.h"
 
 
 namespace Izip
@@ -16,13 +16,13 @@ namespace Izip
         App& operator=(App&)   = delete;
 
         int get_exit_code();
-        int start(const int argc, char **argv);
+        int start(const int argc, char **argv) const;
 
         std::unique_ptr<CLI::App> Arg_parser;
 
     private:
         // Properties
-        Wrappers::CompFile::File& File = Wrappers::CompFile::File::getInstance();
+        Wrappers::CompFile::FileComputation& File = Wrappers::CompFile::FileComputation::getInstance();
         int exit_code = 0;
         static constexpr auto VERSION  = "1.0";
 

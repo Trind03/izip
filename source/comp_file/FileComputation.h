@@ -5,41 +5,37 @@
 
 namespace Izip::Wrappers::CompFile
 {
-    class File
+    struct FileComputation
     {
-    public:
-        static File& getInstance() {
-            static File file;
-            return file;
+        static FileComputation& getInstance()
+        {
+            static FileComputation instance;
+            return instance;
         }
+
         int
         decompress_archive(std::string_view filename);
+
         archive_entry*
         render_archive_entry();
 
         int
-        recursive_decompression(std::string_view filename);
-
-        int
         InteroptHandler(std::string_view msg,std::string_view dir);
 
-        int
-        copy_data(struct archive* arcive,struct archive* archivew);
 
         int
         FileCompress(std::string_view filename,mode_t FilePermissions);
 
         int
-        get_exit_code();
-        ~File() = default;
+        get_exit_code()const;
 
-        std::string filename = "";
-        std::string pathname = "";
-        mode_t archive_type;
+        std::string filename;
+        std::string pathname;
         bool recursive         { false };
         mode_t UserPermissions {   0   };
-        private:
         int exit_code;
-        File();
+    private:
+        FileComputation();
     };
 }
+

@@ -4,11 +4,11 @@
 
 #pragma once
 #include <archive.h>
-#include "File.h"
+#include "FileComputation.h"
 
 namespace Izip::Wrappers::CompFile
 {
-    int File::FileCompress(std::string_view filename,mode_t FilePermissions)
+    int FileComputation::FileCompress(std::string_view filename,mode_t FilePermissions)
     {
         int StatusCode = 0;
         struct archive* Current_Archive = archive_write_new();

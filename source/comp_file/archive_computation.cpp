@@ -1,11 +1,11 @@
 #include <spdlog/spdlog.h>
 #include <archive.h>
 #include <archive_entry.h>
-#include "File.h"
+#include "FileComputation.h"
 #include "universal/exit_codes.hpp"
 
 archive_entry*
-Izip::Wrappers::CompFile::File::render_archive_entry()
+Izip::Wrappers::CompFile::FileComputation::render_archive_entry()
 {
     struct archive_entry* p_archive_entry;
 
@@ -16,7 +16,7 @@ Izip::Wrappers::CompFile::File::render_archive_entry()
 }
 
 int
-Izip::Wrappers::CompFile::File::decompress_archive(std::string_view filename) {
+Izip::Wrappers::CompFile::FileComputation::decompress_archive(std::string_view filename) {
     std::array<char,1024> buffer;
     int status_code   = Izip::Universal::EXIT_CODE::SUCCESS;
     int ArchiveStatus = 0;
