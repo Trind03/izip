@@ -9,7 +9,7 @@ namespace Izip
     {
     public:
         App();
-        ~App()                 = default;
+        ~App() = default;
         App(App&)              = delete;
         App(App&&)             = delete;
         App&& operator=(App&&) = delete;
