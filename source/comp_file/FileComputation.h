@@ -29,7 +29,7 @@ namespace Izip::Wrappers::CompFile
         FileCompress(std::string_view filename,mode_t FilePermissions);
 
         int
-        get_exit_code()const;
+        get_exit_code() const;
 
         std::string filename;
         std::string pathname;
