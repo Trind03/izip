@@ -32,7 +32,7 @@ Izip::Wrappers::CompFile::FileComputation::decompress_archive(std::string_view f
     struct archive* processed_archive;
     struct archive* current_archive;
 
-    spdlog::info("Initializing handler");
+    spdlog::debug("Initializing handler");
 
     current_archive         = archive_read_new();
     processed_archive       = archive_write_disk_new();
