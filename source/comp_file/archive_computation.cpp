@@ -1,13 +1,16 @@
 #include <spdlog/spdlog.h>
 #include <archive.h>
 #include <archive_entry.h>
-#include "FileComputation.h"
-#include "universal/exit_codes.hpp"
+#include <FileComputation.h>
+#include <universal/exit_codes.hpp>
+#include <macros/aliases.h>
+
+using namespace Izip::Universal;
 
 archive_entry*
 Izip::Wrappers::CompFile::FileComputation::render_archive_entry()
 {
-    struct archive_entry* p_archive_entry;
+    archive_entry* p_archive_entry;
 
     p_archive_entry = archive_entry_new();
     archive_entry_set_pathname(p_archive_entry,this->filename.c_str());
@@ -16,9 +19,10 @@ Izip::Wrappers::CompFile::FileComputation::render_archive_entry()
 }
 
 int
-Izip::Wrappers::CompFile::FileComputation::decompress_archive(std::string_view filename) {
+Izip::Wrappers::CompFile::FileComputation::decompress_archive(std::string_view filename)
+{
     std::array<char,1024> buffer;
-    int status_code   = Izip::Universal::EXIT_CODE::SUCCESS;
+    int status_code   = resolve(EXIT_CODE::SUCCESS);
     int ArchiveStatus = 0;
     int flags         = 0;
 
@@ -28,9 +32,9 @@ Izip::Wrappers::CompFile::FileComputation::decompress_archive(std::string_view f
     flags |= ARCHIVE_EXTRACT_FFLAGS;
 
 
-    struct archive_entry* current_archive_entry;
-    struct archive* processed_archive;
-    struct archive* current_archive;
+    archive_entry* current_archive_entry;
+    archive* processed_archive;
+    archive* current_archive;
 
     spdlog::debug("Initializing handler");
 
@@ -50,7 +54,7 @@ Izip::Wrappers::CompFile::FileComputation::decompress_archive(std::string_view f
     if (archive_read_open_filename(current_archive, filename.data(), buffer.size()) == ARCHIVE_OK)
     {
         spdlog::info("File opened successfully!");
-}
+    }
     else
     {
         spdlog::error("File opening failure.");

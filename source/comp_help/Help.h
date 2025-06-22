@@ -1,10 +1,6 @@
 #pragma once
 #include <array>
 
-
-constexpr int PARAM_LENGTH   = 2;
-constexpr int GENERAL_SIZE = 1;
-
 namespace Izip::Wrappers::CompHelp
 {
 
@@ -19,12 +15,14 @@ namespace Izip::Wrappers::CompHelp::helpMessage
         {
                 "Returns the current release build version.",
                 "Takes archive-path for decompression.",
+                "Experimental file compression"
         };
 
         const std::array<std::string, PARAM_LENGTH> PARAM_DESCRIPTOR =
         {
-                "-v, --verison",
+                "-v, --version",
                 "-d, --decompress",
+                "-c, --compress"
         };
 
         const std::array<std::string,GENERAL_SIZE> GENERAL_MESSAGE =

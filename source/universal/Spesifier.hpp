@@ -1,12 +1,13 @@
 
 namespace Izip::Universal
 {
-    enum Spesifier
+    enum class Spesifier
     {
         MYVERSION = 0,
         DECOMPRESS,
+        COMPRESS
     };
-    enum GeneralSpesifier
+    enum class GeneralSpesifier
     {
         PROGRAM_DESCRIPTION,
     };

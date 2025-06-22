@@ -1,29 +1,28 @@
 #pragma once
 #include <string>
 #include <archive.h>
-
+#include <fstream>
+#include <Fileifc.h>
 
 namespace Izip::Wrappers::CompFile
 {
     struct FileComputation
     {
+        [[nodiscard]]
         static FileComputation& getInstance()
         {
             static FileComputation instance;
             return instance;
         }
 
-        int
-        decompress_archive(std::string_view filename);
+        [[nodiscard]] int decompress_archive(std::string_view filename);
 
-        archive_entry*
-        render_archive_entry();
+        [[nodiscard]] archive_entry* render_archive_entry();
 
-        int InteroptHandler(std::string_view msg,std::string_view dir);
+        [[nodiscard]] int InteroptHandler(std::string_view msg,std::string_view dir);
 
-        [[nodiscard]] int compress(std::string_view filename,std::string_view algorithm);
-
-
+        [[nodiscard]] int compress(compfile::Fileifc& File,std::string_view algorithm);
+        std::vector<char> readFileContent(compfile::Fileifc& File);
         [[nodiscard]] int get_exit_code() const;
 
         std::string filename;

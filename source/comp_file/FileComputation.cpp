@@ -1,12 +1,11 @@
 #include <memory>
-#include <string>
 #include <fmt/core.h>
-#include "universal/exit_codes.hpp"
+#include <universal/exit_codes.hpp>
 #include <spdlog/spdlog.h>
 #include <archive.h>
-#include <archive_entry.h>
-#include "FileComputation.h"
-
+#include <FileComputation.h>
+#include <macros/aliases.h>
+using namespace Izip::Universal;
 
 Izip::Wrappers::CompFile::FileComputation::FileComputation() : exit_code(0)
 {
@@ -26,7 +25,7 @@ Izip::Wrappers::CompFile::FileComputation::InteroptHandler(std::string_view msg,
     spdlog::error(msg);
 
     if (rmdir(dir.data()) != 0) {
-        status = Izip::Universal::EXIT_CODE::REMOVAL_DIR_ERROR;
+        status = resolve(EXIT_CODE::REMOVAL_DIR_ERROR);
         spdlog::critical(fmt::format("Failed to remove directory {}",dir));
         return status;
     }

@@ -3,6 +3,7 @@ set(IZIP_TEST_EXE "test")
 set(SOURCE_DIR "${CMAKE_SOURCE_DIR}/source")
 set(TEST_DIR "${CMAKE_SOURCE_DIR}/test")
 
+
 set(SOURCES
     ${SOURCE_DIR}/main.cpp
     ${SOURCE_DIR}/App.cpp
@@ -11,18 +12,14 @@ set(SOURCES
     ${SOURCE_DIR}/comp_help/Help.cpp
     ${SOURCE_DIR}/comp_file/archive_computation.cpp
     ${SOURCE_DIR}/comp_file/FileCompression.cpp
+    ${SOURCE_DIR}/comp_file/File.cpp
 )
 
 set(TEST_SOURCES
     ${TEST_DIR}/main.cpp
-    ${SOURCE_DIR}/comp_help/Help.cpp
-    ${TEST_DIR}/comp_help/descriptors/param_help_descriptors.cpp
-    ${TEST_DIR}/comp_help/descriptors/param_descriptor.cpp
-    ${TEST_DIR}/comp_help/descriptors/general_message.cpp
+    ${TEST_DIR}/CompHelpTest.cpp
 
 )
-
-
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/test
@@ -41,6 +38,8 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/CLI11)
 #add_subdirectory(${CMAKE_SOURCE_DIR}/indicators)
 
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+include_directories(${SOURCE_DIR})
+include_directories(${TEST_DIR})
 
 # Local source folders
 include_directories(${COMP_CMAKE_SOURCE})

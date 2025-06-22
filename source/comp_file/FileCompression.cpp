@@ -2,25 +2,88 @@
 // Created by Torstein on 15/06/2025.
 //
 
-#pragma once
 #include <archive.h>
-#include "FileComputation.h"
-#include "spdlog/spdlog.h"
+#include <fstream>
+#include <archive_entry.h>
+#include <FileComputation.h>
+#include <universal/exit_codes.hpp>
+#include <Fileifc.h>
+#include <spdlog/spdlog.h>
+#include "CLI/Error.hpp"
+#include "CLI/Validators.hpp"
+#include <algorithm>
 
-namespace Izip::Wrappers::CompFile
-{
-    int FileComputation::compress(std::string_view filename,std::string_view algorithm)
+using namespace Izip::Universal;
+
+namespace Izip::Wrappers::CompFile {
+    std::vector<char> FileComputation::readFileContent(compfile::Fileifc& File)
     {
-        int statusCode = 0;
-        archive* Current_Archive = archive_write_new();
+        spdlog::info(fmt::format("Reading file {}",File.filename()));
+        std::vector<char> buffer(File.filesize());
+        std::fstream file(File.filename(), std::ios::in | std::ios::binary);
 
-        switch (algorithm)
+        file.read(buffer.data(), buffer.size());
+
+        spdlog::info(fmt::format("File: {} read!",File.filename()));
+
+        return buffer;
+    }
+    [[nodiscard]]
+    int FileComputation::compress(compfile::Fileifc& File,std::string_view algorithm)
+    {
+        spdlog::info(fmt::format("Compressing file {}",File.filename()));
+        std::string filename                 = File.filenameOnly();
+        mode_t permission                    = S_IRUSR | S_IWUSR;
+        int exit_code                        = static_cast<int>(EXIT_CODE::SUCCESS);
+        archive* currentArchive              = archive_write_new();
+        archive_entry* current_archive_entry = archive_entry_new();
+
+        // Initialize archive
+        archive_write_set_format_pax_restricted(currentArchive);
+
+
+        // Initialize algorithm
+        switch (algorithm.length())
         {
+            case 4:
+                filename = fmt::format("{}.tar.xz",filename);
+                archive_write_open_filename(currentArchive,filename.c_str());
+                break;
+
             default:
-                spdlog::info("Compression algorithm: Tar");
-                statusCode = archive_write_zip_set_compression_xz(Current_Archive);
+                filename = fmt::format("{}.tar.xz",filename);
+                if (filename != "0")
+                {
+                    exit_code = archive_write_open_filename(currentArchive,filename.c_str());
+                    break;
+                }
+                spdlog::error("Result from removing extention failed.");
+                std::terminate();
         }
 
-        return statusCode;
+
+        // Initializing entry
+        archive_entry_set_pathname(current_archive_entry,
+            fmt::format("{}.tar.xz",filename).c_str());
+
+        archive_entry_set_pathname(current_archive_entry,filename.c_str());
+        archive_entry_set_size(current_archive_entry,File.filesize());
+        archive_entry_set_filetype(current_archive_entry, AE_IFREG);
+        archive_entry_set_perm(current_archive_entry, permission);
+
+        if (exit_code != static_cast<int>(EXIT_CODE::SUCCESS))
+            spdlog::error("Entry init failure!");
+
+        exit_code = archive_write_header(currentArchive,current_archive_entry);
+        archive_write_data(currentArchive,algorithm.data(),File.filesize());
+
+        if (exit_code != static_cast<int>(EXIT_CODE::SUCCESS))
+            spdlog::error(
+                fmt::format("Something sus happened, exit code: {}",exit_code));
+
+        archive_entry_free(current_archive_entry);
+        archive_write_free(currentArchive);
+        spdlog::info(fmt::format("Compressed file: {}. Freeing resources.",filename));
+        return 0;
     }
 }
