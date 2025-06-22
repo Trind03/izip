@@ -9,7 +9,7 @@ namespace Izip
         CLI11_PARSE(*Arg_parser,argc,Arg_parser->ensure_utf8(argv));
 
 
-        if (File.filename.c_str())
+        if (!(File.filename.empty()))
         {
             spdlog::info(fmt::format("detected file: {}",File.filename));
             File.decompress_archive(File.filename);

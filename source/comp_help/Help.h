@@ -2,7 +2,7 @@
 #include <array>
 
 
-constexpr int PARAM_LENGTH   = 6;
+constexpr int PARAM_LENGTH   = 2;
 constexpr int GENERAL_SIZE = 1;
 
 namespace Izip::Wrappers::CompHelp
@@ -25,21 +25,12 @@ namespace Izip::Wrappers::CompHelp
         {
             "Returns the current release build version.",
             "Takes file-path/filename for decompression",
-            "Takes file-path/filename for compression",
-            "Processes archives recursively such as feks folders.",
-            "Spesify file permssions for output file. Default: 700",
-            "Selection of algorithms."
         };
 
         const std::array<std::string, PARAM_LENGTH> PARAM_DESCRIPTOR =
         {
             "-v, --verison",
             "-d, --decompress",
-            "-c, --compress",
-            "-r, --recursive",
-            "-p, --permissions",
-            "-a, --algorithm"
-
         };
 
         const std::array<std::string,GENERAL_SIZE> GENERAL_MESSAGE =

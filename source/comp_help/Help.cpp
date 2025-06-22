@@ -16,9 +16,9 @@ namespace Izip::Wrappers::CompHelp
     {
        if (selector < this->PARAM_DESCRIPTOR.size())
            return "";
-        else if (selector >= this->PARAM_DESCRIPTOR.size()) {
+
+        if (selector >= this->PARAM_DESCRIPTOR.size())
             return "";
-        }
 
         return this->PARAM_DESCRIPTOR[selector];
     }
