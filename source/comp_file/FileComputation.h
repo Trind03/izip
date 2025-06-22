@@ -22,6 +22,8 @@ namespace Izip::Wrappers::CompFile
         int
         InteroptHandler(std::string_view msg,std::string_view dir);
 
+        int
+        fileCompression(std::string_view filename);
 
         int
         FileCompress(std::string_view filename,mode_t FilePermissions);
