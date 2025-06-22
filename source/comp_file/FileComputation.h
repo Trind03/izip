@@ -21,7 +21,7 @@ namespace Izip::Wrappers::CompFile
 
         int InteroptHandler(std::string_view msg,std::string_view dir);
 
-        [[nodiscard]] int compress(std::string_view filename);
+        [[nodiscard]] int compress(std::string_view filename,std::string_view algorithm);
 
 
         [[nodiscard]] int get_exit_code() const;
