@@ -1,14 +1,18 @@
 #pragma once
-#include <Fileifc.h>
+#include <FileIfc.h>
+#include <cstdint>
 
-namespace Izip::compfile
+namespace CompFile
 {
-    class File final : public Fileifc
+    class File : public FileIfc
     {
     public:
+        explicit File() = default;
         explicit File(std::string filename);
-        unsigned int    filesize()     override;
-        std::string     filename()     override;
-        std::string     filenameOnly() override;
+        ~File() override = default;
+        std::vector<char> readFileContent() override;
+        uint32_t        filesize()     	    override;
+        std::string     filename()     	    override;
+        std::string     filenameOnly() 	    override;
     };
 }

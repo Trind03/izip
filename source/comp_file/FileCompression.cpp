@@ -7,34 +7,19 @@
 #include <archive_entry.h>
 #include <FileComputation.h>
 #include <universal/exit_codes.hpp>
-#include <Fileifc.h>
+#include <FileIfc.h>
+#include <vector>
 #include <spdlog/spdlog.h>
-#include "CLI/Error.hpp"
-#include "CLI/Validators.hpp"
-#include <algorithm>
+#include <CLI/Validators.hpp>
 
-using namespace Izip::Universal;
-
-namespace Izip::Wrappers::CompFile {
-    std::vector<char> FileComputation::readFileContent(compfile::Fileifc& File)
-    {
-        spdlog::info(fmt::format("Reading file {}",File.filename()));
-        std::vector<char> buffer(File.filesize());
-        std::fstream file(File.filename(), std::ios::in | std::ios::binary);
-
-        file.read(buffer.data(), buffer.size());
-
-        spdlog::info(fmt::format("File: {} read!",File.filename()));
-
-        return buffer;
-    }
+namespace CompFile {
     [[nodiscard]]
-    int FileComputation::compress(compfile::Fileifc& File,std::string_view algorithm)
+    int FileComputation::compress(FileIfc& File,std::string_view algorithm)
     {
         spdlog::info(fmt::format("Compressing file {}",File.filename()));
         std::string filename                 = File.filenameOnly();
         mode_t permission                    = S_IRUSR | S_IWUSR;
-        int exit_code                        = static_cast<int>(EXIT_CODE::SUCCESS);
+        int exit_code                        = static_cast<int>(Universal::EXIT_CODE::SUCCESS);
         archive* currentArchive              = archive_write_new();
         archive_entry* current_archive_entry = archive_entry_new();
 
@@ -71,13 +56,13 @@ namespace Izip::Wrappers::CompFile {
         archive_entry_set_filetype(current_archive_entry, AE_IFREG);
         archive_entry_set_perm(current_archive_entry, permission);
 
-        if (exit_code != static_cast<int>(EXIT_CODE::SUCCESS))
+        if (exit_code != static_cast<int>(Universal::EXIT_CODE::SUCCESS))
             spdlog::error("Entry init failure!");
 
         exit_code = archive_write_header(currentArchive,current_archive_entry);
         archive_write_data(currentArchive,algorithm.data(),File.filesize());
 
-        if (exit_code != static_cast<int>(EXIT_CODE::SUCCESS))
+        if (exit_code != static_cast<int>(Universal::EXIT_CODE::SUCCESS))
             spdlog::error(
                 fmt::format("Something sus happened, exit code: {}",exit_code));
 

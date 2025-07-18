@@ -1,15 +1,7 @@
 #pragma once
 #include <array>
 
-namespace Izip::Wrappers::CompHelp
-{
-
-        [[nodiscard]] std::string param_message_descriptor(size_t selector);
-        [[nodiscard]] std::string param_symbol_descriptor(size_t  selector);
-        [[nodiscard]] std::string general_message_descriptor(size_t selector);
-}
-
-namespace Izip::Wrappers::CompHelp::helpMessage
+namespace CompHelp
 {
         const std::array<std::string, PARAM_LENGTH> PARAM_MESSAGE_DESCRIPTOR =
         {

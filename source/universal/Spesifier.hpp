@@ -1,5 +1,5 @@
 
-namespace Izip::Universal
+namespace Universal
 {
     enum class Spesifier
     {

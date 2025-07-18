@@ -14,26 +14,41 @@ jobs:
     steps:
       - uses: "actions/checkout@v4"
 
+      # - name: "Configurating dependencies"
+      #   run: "git submodule update --init --recursive; sudo apt-get install clang-format python3 -y"
+
+      # - uses: actions/checkout@v4
+
+      # - name: Generate_project_files
+      #   run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
+
+      # - name: Compile
+      #   run: cmake --build ${{github.workspace}}/build
+
+     # - name: Run program
+      #  run: ${{github.workspace}}/build/izip -v
+
+      #- name: "Live prgram execution"
+        #run: "${{github.workspace}}/build/izip --decompress ./test/data/asm.zip"
+
+      #- name: "Reviewcheck Result"
+      #  run: "cd source; python3 ${{github.workspace}}/script/cpp-batch-formatter;"
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v4"
+
       - name: "Configurating dependencies"
         run: "git submodule update --init --recursive; sudo apt-get install clang-format python3 -y"
 
       - uses: actions/checkout@v4
 
-      - name: Generate_project_files
+      - name: Initialize
         run: cmake -B ${{github.workspace}}/build ${{github.workspace}}
 
-      - name: Compile
+      - name: Build
         run: cmake --build ${{github.workspace}}/build
 
-      - name: Run program
-        run: ${{github.workspace}}/build/izip -v
-
-      - name: "Live prgram execution"
-        run: "${{github.workspace}}/build/izip --decompress ./test/data/asm.zip"
-
       - name: Run tests
-        run: ${{github.workspace}}/build/test
-
-      #- name: "Reviewcheck Result"
-      #  run: "cd source; python3 ${{github.workspace}}/script/cpp-batch-formatter;"
-
+        run: cd /home/runner/work/izip/izip/test; ${{github.workspace}}/build/test

@@ -5,11 +5,10 @@
 #include <FileComputation.h>
 #include "File.h"
 
-namespace Izip {
 int App::start(int argc, char **argv)
   {
   CLI11_PARSE(*Arg_parser, argc, Arg_parser->ensure_utf8(argv));
-  compfile::File File(this->fileComputation.filename);
+  CompFile::File File(this->fileComputation.filename);
     this->exit_code = this->fileComputation.compress(File,"");
 
 
@@ -17,7 +16,6 @@ int App::start(int argc, char **argv)
 }
 
 int App::get_exit_code() const { return exit_code; }
-} // namespace Izip
 /*
 if (!(File.filename.empty())) {
   spdlog::info(fmt::format("detected file: {}", File.filename));

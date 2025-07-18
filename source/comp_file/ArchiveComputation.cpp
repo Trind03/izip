@@ -1,3 +1,4 @@
+#include <vector>
 #include <spdlog/spdlog.h>
 #include <archive.h>
 #include <archive_entry.h>
@@ -5,24 +6,20 @@
 #include <universal/exit_codes.hpp>
 #include <macros/aliases.h>
 
-using namespace Izip::Universal;
-
 archive_entry*
-Izip::Wrappers::CompFile::FileComputation::render_archive_entry()
+CompFile::FileComputation::render_archive_entry() const
 {
-    archive_entry* p_archive_entry;
-
-    p_archive_entry = archive_entry_new();
+    archive_entry* p_archive_entry  = archive_entry_new();
     archive_entry_set_pathname(p_archive_entry,this->filename.c_str());
 
     return p_archive_entry;
 }
 
 int
-Izip::Wrappers::CompFile::FileComputation::decompress_archive(std::string_view filename)
+CompFile::FileComputation::decompress_archive(std::string_view filename)
 {
     std::array<char,1024> buffer;
-    int status_code   = resolve(EXIT_CODE::SUCCESS);
+    int status_code   = resolve(Universal::EXIT_CODE::SUCCESS);
     int ArchiveStatus = 0;
     int flags         = 0;
 

@@ -1,31 +1,31 @@
+#include <vector>
 #include <memory>
 #include <fmt/core.h>
-#include <universal/exit_codes.hpp>
 #include <spdlog/spdlog.h>
 #include <archive.h>
 #include <FileComputation.h>
 #include <macros/aliases.h>
-using namespace Izip::Universal;
+#include <universal/exit_codes.hpp>
 
-Izip::Wrappers::CompFile::FileComputation::FileComputation() : exit_code(0)
+CompFile::FileComputation::FileComputation() : exit_code(0)
 {
     this->UserPermissions = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
 }
 
 int
-Izip::Wrappers::CompFile::FileComputation::get_exit_code() const
+CompFile::FileComputation::get_exit_code() const
 {
     return exit_code;
 }
 
 int
-Izip::Wrappers::CompFile::FileComputation::InteroptHandler(std::string_view msg,std::string_view dir)
+CompFile::FileComputation::InteroptHandler(std::string_view msg,std::string_view dir)
 {
     int status = EXIT_SUCCESS;
     spdlog::error(msg);
 
     if (rmdir(dir.data()) != 0) {
-        status = resolve(EXIT_CODE::REMOVAL_DIR_ERROR);
+        status = resolve(Universal::EXIT_CODE::REMOVAL_DIR_ERROR);
         spdlog::critical(fmt::format("Failed to remove directory {}",dir));
         return status;
     }
