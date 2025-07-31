@@ -3,7 +3,7 @@
 int main(const int argc, char** argv)
 {
     App app;
-    app.start(argc,argv);
+    app.Start(argc,argv);
 
-    return app.get_exit_code();
+    return app.GetExitCode();
 }

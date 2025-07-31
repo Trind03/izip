@@ -4,12 +4,15 @@ namespace Universal
 {
     enum class EXIT_CODE
     {
-        SUCCESS = 0,
-        FAILURE = 1,
-        ALGORITHMIC_FAILURE  = 225,
-        INVALID_ARG = 114,
-        INVLAID_FILE = 137,
-        OUT_OF_BOUND = 120,
-        REMOVAL_DIR_ERROR = 125,
+        SUCCESS                 = 0,
+        FAILURE                 = 1,
+        ALGORITHMIC_FAILURE     = 225,
+        INVALID_ARG             = 114,
+        INVALID_FILE            = 137,
+        FAILURE_TO_WRITE_DATA   = 111,
+        FAILURE_TO_WRITE_HEADER = 112,
+        FAILURE_TO_EXTRACT_DATA = 138,
+        OUT_OF_BOUND            = 120,
+        REMOVAL_DIR_ERROR       = 125,
     };
 }

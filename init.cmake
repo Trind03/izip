@@ -8,9 +8,9 @@ set(SOURCES
         ${SOURCE_DIR}/main.cpp
         ${SOURCE_DIR}/App.cpp
         ${SOURCE_DIR}/Appctor.cpp
-        ${SOURCE_DIR}/comp_file/FileComputation.cpp
         ${SOURCE_DIR}/comp_file/ArchiveComputation.cpp
         ${SOURCE_DIR}/comp_file/FileCompression.cpp
+        ${SOURCE_DIR}/comp_file/ArchiveDecompression.cpp
         ${SOURCE_DIR}/comp_file/File.cpp
 )
 
@@ -19,9 +19,8 @@ set(TEST_SOURCES
         ${TEST_DIR}/FileTest.cpp
         ${TEST_DIR}/FileMockTest.cpp
         ${SOURCE_DIR}/comp_file/File.cpp
-        #${SOURCE_DIR}/comp_file/ArchiveComputation.cpp
-        #${SOURCE_DIR}/comp_file/FileCompression.cpp
-        #${SOURCE_DIR}/comp_file/FileComputation.cpp
+        ${SOURCE_DIR}/comp_file/ArchiveComputation.cpp
+        ${SOURCE_DIR}/comp_file/ArchiveDecompression.cpp
 )
 
 include_directories(
@@ -46,16 +45,25 @@ include_directories(${TEST_DIR})
 # Local source folders
 include_directories(${COMP_CMAKE_SOURCE})
 
+# Copy test-set files to location of binary executables.
+file(COPY ${TEST_DIR}/testset/file_test.c      DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${TEST_DIR}/testset/file_test.x.cpp  DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${TEST_DIR}/testset/archive_test.tar DESTINATION ${CMAKE_BINARY_DIR})
 
 # Direct compiler options.
-add_compile_options("-std=c++23")
+add_compile_options("-std=c++20")
 add_compile_options("-g")
 add_compile_options("-pedantic")
 add_compile_options("-Wextra")
 
 # Preprocessor symbols
 add_compile_definitions(
-        TEST_TARGET_FILE="file_test.c"
+        TEST_TARGET_FILE_C="file_test.c"
+        TEST_TARGET_FILE_SIZE_C=221
+
         TEST_TARGET_FILE_WT_EXT="file_test"
+
+        TEST_TARGET_FILE_CXX="file_test.x.cpp"
+        TEST_TARGET_FILE_SIZE_CXX=238
 )
 

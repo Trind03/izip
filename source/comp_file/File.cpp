@@ -9,51 +9,61 @@ namespace CompFile
     File::File(std::string filename)
     {
         this->_filename = std::move(filename);
-        this->_filesize = std::filesystem::file_size(std::filesystem::path(this->_filename));
+        try
+        {
+            this->_filesize = std::filesystem::file_size(std::filesystem::path(this->_filename));
+        }
+        catch (const std::filesystem::filesystem_error &error)
+        {
+            spdlog::error(
+                fmt::format("Error while opening file '{}', does the file exist?", this->_filename)
+                );
+            std::exit(127);
+        }
     }
 
     uint32_t File::filesize()
     {
-        return   this->_filesize;
+        return this->_filesize;
     }
+
     std::string File::filename()
     {
         return this->_filename;
     }
 
-    std::vector<char> File::readFileContent()
+    std::string File::algorithm()
     {
-        spdlog::info(fmt::format("Reading file {}",this->_filename));
-        std::vector<char> buffer(this->filesize());
+        return this->_algorithm;
+    }
+
+    std::vector<unsigned char> File::readFileContent()
+    {
+        spdlog::debug(fmt::format("Reading file {}",this->_filename));
+        std::vector<unsigned char> buffer(this->filesize());
         std::fstream file(this->filename(), std::ios::in | std::ios::binary);
 
-        file.read(buffer.data(), buffer.size());
+        file.read(reinterpret_cast<char*>(buffer.data()), buffer.size());
 
-        spdlog::info(fmt::format("File: {} read!",this->_filename));
+        spdlog::debug(fmt::format("File: {} read!",this->_filename));
 
         return buffer;
     }
 
     std::string File::filenameOnly()
     {
-        int32_t length;
+        std::string filename = this->_filename;
+        size_t TargetPos = filename.find(".");
+        if (TargetPos == std::string::npos)
         {
-        // Scope this to invalidate iterators used
-            std::string::iterator exttarget = std::find(this->_filename.begin(), this->_filename.end(), '.');
-            std::string::iterator end = this->_filename.end();
-            int32_t templen = &exttarget - &end;
-
-            if (templen == 0)
-                spdlog::warn("Invalid ext value");
-
-            length = templen;
+            spdlog::error("Target char in filename not found.");
         }
 
-        std::string filename = this->_filename;
-
-        for (int32_t i = 0; i < length; i++)
+        while (filename.length() != TargetPos)
+        {
             filename.pop_back();
-
+        }
+        
         return filename;
     }
 }

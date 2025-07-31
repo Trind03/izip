@@ -1,7 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <spdlog/spdlog.h>
-#include <FileComputation.h>
+#include <ArchiveComputation.h>
 #include <universal/exit_codes.hpp>
 #include <comp_help/Help.h>
 #include <universal/Spesifier.hpp>
@@ -23,14 +23,13 @@ App::App()
         this->OptVersion = Arg_parser->set_version_flag(
             CompHelp::PARAM_DESCRIPTOR[resolve(Universal::Spesifier::MYVERSION)]);
 
+
         this->OptDecompress = Arg_parser->add_option(
-            CompHelp::PARAM_DESCRIPTOR[resolve(Universal::Spesifier::DECOMPRESS)],
-        fileComputation.filename,
-        CompHelp::PARAM_MESSAGE_DESCRIPTOR[resolve(Universal::Spesifier::MYVERSION)]);
+            CompHelp::PARAM_DESCRIPTOR[resolve(Universal::Spesifier::DECOMPRESS)], DecompressTargets,
+            CompHelp::PARAM_MESSAGE_DESCRIPTOR[resolve(Universal::Spesifier::DECOMPRESS)]);
 
         this->OptCompress = Arg_parser->add_option(
-            CompHelp::PARAM_DESCRIPTOR[resolve(Universal::Spesifier::COMPRESS)],
-            fileComputation.filename,
+            CompHelp::PARAM_DESCRIPTOR[resolve(Universal::Spesifier::COMPRESS)],CompressTargets,
             CompHelp::PARAM_MESSAGE_DESCRIPTOR[resolve(Universal::Spesifier::COMPRESS)]);
     }
     catch(const CLI::ArgumentMismatch&)

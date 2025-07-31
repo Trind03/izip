@@ -51,4 +51,4 @@ jobs:
         run: cmake --build ${{github.workspace}}/build
 
       - name: Run tests
-        run: cd /home/runner/work/izip/izip/test; ${{github.workspace}}/build/test
+        run: cd ${{github.workspace}}/build; ./test
