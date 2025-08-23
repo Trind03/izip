@@ -1,8 +1,8 @@
 #pragma once
-#include <IFile.h>
+#include <../FileRep/IFile.h>
 #include <cstdint>
 
-namespace CompFile
+namespace FileRep
 {
     class File : public IFile
     {

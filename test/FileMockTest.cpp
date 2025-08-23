@@ -7,7 +7,7 @@
 #include <comp_file/File.h>
 #include <string>
 #include <comp_file/IFile.h>
-#include <comp_file/ArchiveComputation.h>
+#include <../source/softarchive/ArchiveComputation.h>
 #include <macros/aliases.h>
 #include "universal/exit_codes.hpp"
 #include "universal/Spesifier.hpp"

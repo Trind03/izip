@@ -4,9 +4,7 @@
 #include <spdlog/spdlog.h>
 #include <fstream>
 
-namespace CompFile
-{
-    File::File(std::string filename)
+    FileRep::File::File(std::string filename)
     {
         this->_filename = std::move(filename);
         try
@@ -22,22 +20,22 @@ namespace CompFile
         }
     }
 
-    uint32_t File::filesize()
+    uint32_t FileRep::File::filesize()
     {
         return this->_filesize;
     }
 
-    std::string File::filename()
+    std::string FileRep::File::filename()
     {
         return this->_filename;
     }
 
-    std::string File::algorithm()
+    std::string FileRep::File::algorithm()
     {
         return this->_algorithm;
     }
 
-    std::vector<unsigned char> File::readFileContent()
+    std::vector<unsigned char> FileRep::File::readFileContent()
     {
         spdlog::debug(fmt::format("Reading file {}",this->_filename));
         std::vector<unsigned char> buffer(this->filesize());
@@ -50,7 +48,7 @@ namespace CompFile
         return buffer;
     }
 
-    std::string File::filenameOnly()
+    std::string FileRep::File::filenameOnly()
     {
         std::string filename = this->_filename;
         size_t TargetPos = filename.find(".");
@@ -63,7 +61,6 @@ namespace CompFile
         {
             filename.pop_back();
         }
-        
+
         return filename;
     }
-}

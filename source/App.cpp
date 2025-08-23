@@ -1,12 +1,12 @@
 #include <App.h>
 #include <Help.h>
 #include <spdlog/spdlog.h>
-#include <ArchiveComputation.h>
+#include <softarchive/ArchiveComputation.h>
 #include <archive.h>
-#include <File.h>
+#include <FileRep/File.h>
 #include <macros/aliases.h>
 #include <universal/exit_codes.hpp>
-#include <IFile.h>
+#include <FileRep/IFile.h>
 
 
 int App::Start(const int argc, char **argv) const
@@ -19,9 +19,9 @@ int App::Start(const int argc, char **argv) const
     // }
     if (!(DecompressTargets.empty()))
     {
-        for (CompFile::File File : DecompressTargets)
+        for (FileRep::File File : DecompressTargets)
         {
-            if (Computation.DecompressArchive(&File) != resolve(Universal::EXIT_CODE::SUCCESS))
+            if (SoftArchive::Decompress(&File) != resolve(Universal::EXIT_CODE::SUCCESS))
             {
                 spdlog::error("Failed to decompress archive {}", File.filename());
                 return resolve(Universal::EXIT_CODE::ALGORITHMIC_FAILURE);
@@ -30,9 +30,9 @@ int App::Start(const int argc, char **argv) const
     }
     else if (!(CompressTargets.empty()))
     {
-        for (CompFile::File File : CompressTargets)
+        for (FileRep::File File : CompressTargets)
         {
-            if (Computation.Compress(File) != resolve(Universal::EXIT_CODE::SUCCESS))
+            if (SoftArchive::Compress(&File) != resolve(Universal::EXIT_CODE::SUCCESS))
             {
                 spdlog::error("Failed to compress archive {}", File.filename());
                 return resolve(Universal::EXIT_CODE::ALGORITHMIC_FAILURE);

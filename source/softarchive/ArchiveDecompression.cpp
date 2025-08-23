@@ -9,7 +9,7 @@
 #include "gtest/internal/gtest-port.h"
 
 archive_entry*
-CompFile::ArchiveComputation::RenderArchiveEntry(IFile *File) const
+SoftArchive::RenderArchiveEntry(FileRep::IFile *File)
 {
     archive_entry* p_archive_entry  = archive_entry_new();
     archive_entry_set_pathname(p_archive_entry,File->filename().c_str());
@@ -17,15 +17,11 @@ CompFile::ArchiveComputation::RenderArchiveEntry(IFile *File) const
     return p_archive_entry;
 }
 
-void
-HandleFolders()
-{
-
-}
 
 int
-CompFile::ArchiveComputation::DecompressArchive(IFile *File) const
+SoftArchive::Decompress(FileRep::IFile *File)
 {
+    constexpr mode_t UserPermission = ARCHIVE_EXTRACT_PERM;
     std::array<char, 8192> Buffer {};
     int StatusCode   = resolve(Universal::EXIT_CODE::SUCCESS);
     int flags        = 0;
@@ -81,7 +77,7 @@ CompFile::ArchiveComputation::DecompressArchive(IFile *File) const
         std::string PathName  = archive_entry_pathname_utf8(CurrentArchiveEntry);
 
         if (archive_entry_filetype(CurrentArchiveEntry) == AE_IFDIR )
-            mkdir(PathName.c_str(), UserPermissions);
+            mkdir(PathName.c_str(), UserPermission);
 
 
         if (PathName.empty())
@@ -95,7 +91,7 @@ CompFile::ArchiveComputation::DecompressArchive(IFile *File) const
         {
             spdlog::info("Creating new directory!");
 
-            if (mkdir(PathName.c_str(), UserPermissions) != resolve(Universal::EXIT_CODE::SUCCESS))
+            if (mkdir(PathName.c_str(), UserPermission) != resolve(Universal::EXIT_CODE::SUCCESS))
             {
                 spdlog::error("Failed to create pathname: {}", PathName);
                 return resolve(Universal::EXIT_CODE::FAILURE);

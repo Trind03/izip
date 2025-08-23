@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <vector>
 
-namespace CompFile
+namespace FileRep
 {
     class IFile
     {

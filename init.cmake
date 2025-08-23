@@ -8,28 +8,31 @@ set(SOURCES
         ${SOURCE_DIR}/main.cpp
         ${SOURCE_DIR}/App.cpp
         ${SOURCE_DIR}/Appctor.cpp
-        ${SOURCE_DIR}/comp_file/ArchiveComputation.cpp
-        ${SOURCE_DIR}/comp_file/FileCompression.cpp
-        ${SOURCE_DIR}/comp_file/ArchiveDecompression.cpp
-        ${SOURCE_DIR}/comp_file/File.cpp
+        ${SOURCE_DIR}/softarchive/ArchiveComputation.cpp
+        ${SOURCE_DIR}/softarchive/FileCompression.cpp
+        ${SOURCE_DIR}/softarchive/ArchiveDecompression.cpp
+        ${SOURCE_DIR}/FileRep/File.cpp
 )
 
 set(TEST_SOURCES
         ${TEST_DIR}/main.cpp
         ${TEST_DIR}/FileTest.cpp
         ${TEST_DIR}/FileMockTest.cpp
-        ${SOURCE_DIR}/comp_file/File.cpp
-        ${SOURCE_DIR}/comp_file/ArchiveComputation.cpp
-        ${SOURCE_DIR}/comp_file/ArchiveDecompression.cpp
+        ${SOURCE_DIR}/FileRep/File.cpp
+        ${SOURCE_DIR}/softarchive/ArchiveComputation.cpp
+        ${SOURCE_DIR}/softarchive/ArchiveDecompression.cpp
 )
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/test
-    ${SOURCE_DIR}/comp_help
-    ${SOURCE_DIR}/comp_file
-    ${SOURCE_DIR}
-    ${TEST_DIR}/test/help_test
-    ${TEST_DIR}/test
+        ${SOURCE_DIR}
+        ${CMAKE_SOURCE_DIR}/test
+        ${SOURCE_DIR}/comp_help
+        ${SOURCE_DIR}/comp_file
+        ${SOURCE_DIR}/FileRep
+        ${SOURCE_DIR}/softarchive
+
+        ${TEST_DIR}/test/help_test
+        ${TEST_DIR}/test
 )
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/fmt)
