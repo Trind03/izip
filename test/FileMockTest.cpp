@@ -4,17 +4,17 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <memory>
-#include <comp_file/File.h>
+#include <File.h>
 #include <string>
-#include <comp_file/IFile.h>
-#include <../source/softarchive/ArchiveComputation.h>
+#include <File.h>
+#include <ArchiveComputation.h>
 #include <macros/aliases.h>
 #include "universal/exit_codes.hpp"
 #include "universal/Spesifier.hpp"
 
 namespace
 {
-    class FileMock : public CompFile::File
+    class FileMock : public FileRep::File
     {
     public:
         explicit FileMock(std::string fileName)
@@ -44,7 +44,7 @@ namespace
         void TearDown() override {
 
        }
-        std::unique_ptr<CompFile::IFile> fileMock = nullptr;
+        std::unique_ptr<FileRep::IFile> fileMock = nullptr;
     };
 }
 
@@ -54,16 +54,15 @@ TEST_F(Context, DISABLED_FileInit)
     std::string filename = "archive_test.tar";
     std::string filenamewtext = "archive_test";
 
-    CompFile::ArchiveComputation ArchiveComputation = CompFile::ArchiveComputation::getInstance();
-    FileMock file(filename);
+    FileRep::File file(filename);
 
-    EXPECT_CALL(file, filename).Times(2)
-        .WillOnce(testing::Return("junk.tar"));
+    // EXPECT_CALL(file, filename).Times(2)
+    //     .WillOnce(testing::Return("junk.tar"));
 
-    EXPECT_CALL(file, filenameOnly).Times(0).WillOnce(   testing::Return(filenamewtext));
-    EXPECT_CALL(file, readFileContent).Times(2);
+    // EXPECT_CALL(file, filenameOnly).Times(0).WillOnce(testing::Return(filenamewtext));
+    // EXPECT_CALL(file, readFileContent).Times(2);
 
-    status = ArchiveComputation.DecompressArchive(&file);
+    status = SoftArchive::Decompress(&file);
 
     EXPECT_EQ(status, resolve(Universal::EXIT_CODE::SUCCESS));
 

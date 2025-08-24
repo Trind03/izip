@@ -8,20 +8,10 @@
 
 #include "gtest/internal/gtest-port.h"
 
-archive_entry*
-SoftArchive::RenderArchiveEntry(FileRep::IFile *File)
-{
-    archive_entry* p_archive_entry  = archive_entry_new();
-    archive_entry_set_pathname(p_archive_entry,File->filename().c_str());
-
-    return p_archive_entry;
-}
-
-
 int
 SoftArchive::Decompress(FileRep::IFile *File)
 {
-    constexpr mode_t UserPermission = ARCHIVE_EXTRACT_PERM;
+    mode_t UserPermissions;
     std::array<char, 8192> Buffer {};
     int StatusCode   = resolve(Universal::EXIT_CODE::SUCCESS);
     int flags        = 0;
@@ -33,51 +23,52 @@ SoftArchive::Decompress(FileRep::IFile *File)
 
     spdlog::debug("Initializing handler");
 
-    archive_entry* CurrentArchiveEntry  = RenderArchiveEntry(File);
+    archive_entry* CurrentArchiveEntry  = archive_entry_new();
     archive* CurrentArchive             = archive_read_new();
     archive* WritableArchive            = archive_write_disk_new();
 
-    if (archive_read_support_format_all(CurrentArchive) != resolve(Universal::EXIT_CODE::SUCCESS)) {
-        spdlog::error("Failed to initialize archive reader");
-        return resolve(Universal::EXIT_CODE::FAILURE);
-    }
+    archive_entry_set_pathname(CurrentArchiveEntry, File->filename().c_str());
 
-    if (archive_read_support_filter_all(CurrentArchive) != resolve(Universal::EXIT_CODE::SUCCESS)) {
-        spdlog::error("Failed to initialize archive reader");
-        return resolve(Universal::EXIT_CODE::FAILURE);
-    }
+    archive_read_support_format_all(CurrentArchive);
+    archive_read_support_filter_all(CurrentArchive);
 
-    if (archive_write_disk_set_options(WritableArchive, flags) != resolve(Universal::EXIT_CODE::SUCCESS)) {
-        spdlog::error("Failed to initialize archive writer");
-        return resolve(Universal::EXIT_CODE::FAILURE);
-    }
-    StatusCode = archive_write_disk_set_standard_lookup(WritableArchive);
+    archive_write_disk_set_options(CurrentArchive,flags);
+    archive_write_disk_set_standard_lookup(WritableArchive);
 
 
-    if (StatusCode != resolve(Universal::EXIT_CODE::SUCCESS)) {
-        spdlog::error("Failed to initialize multi-support.");
-        return StatusCode;
-    }
-
-
-    if (archive_read_open_memory2(CurrentArchive, File->readFileContent().data(),
-            File->readFileContent().size(), 1024) == ARCHIVE_OK)
+    if (archive_read_open_filename(CurrentArchive, File->filename().c_str(),1024)
+        == ARCHIVE_OK)
     {
         spdlog::debug(fmt::format("Successfully loaded archive: {}", File->filename()));
     }
 
     else
     {
-        spdlog::error("Failed to load archive from {}", File->filename());
+        spdlog::error(archive_error_string(CurrentArchive));
         return ARCHIVE_FATAL;
     }
 
-    while (archive_read_next_header(CurrentArchive, &CurrentArchiveEntry) == ARCHIVE_OK)
+    while (true)
     {
-        std::string PathName  = archive_entry_pathname_utf8(CurrentArchiveEntry);
+        {
+            int x = archive_read_next_header(CurrentArchive, &CurrentArchiveEntry);
+            if (x == ARCHIVE_EOF)
+            {
+                spdlog::info("Finished reading archive");
+                return 0;
+            }
+            if (x != ARCHIVE_OK)
+             {
+                spdlog::error(archive_error_string(CurrentArchive));
+                return x;
+             }
+            UserPermissions = archive_entry_perm(CurrentArchiveEntry);
+        }
 
-        if (archive_entry_filetype(CurrentArchiveEntry) == AE_IFDIR )
-            mkdir(PathName.c_str(), UserPermission);
+        std::string PathName = archive_entry_pathname_utf8(CurrentArchiveEntry);
+
+        // if (archive_entry_filetype(CurrentArchiveEntry) == AE_IFDIR )
+        //     mkdir(PathName.c_str(), archive_entry_perm(CurrentArchiveEntry));
 
 
         if (PathName.empty())
@@ -91,7 +82,7 @@ SoftArchive::Decompress(FileRep::IFile *File)
         {
             spdlog::info("Creating new directory!");
 
-            if (mkdir(PathName.c_str(), UserPermission) != resolve(Universal::EXIT_CODE::SUCCESS))
+            if (mkdir(PathName.c_str(), UserPermissions) != resolve(Universal::EXIT_CODE::SUCCESS))
             {
                 spdlog::error("Failed to create pathname: {}", PathName);
                 return resolve(Universal::EXIT_CODE::FAILURE);
@@ -103,10 +94,10 @@ SoftArchive::Decompress(FileRep::IFile *File)
             return resolve(Universal::EXIT_CODE::FAILURE);
         }
 
-        while (const la_ssize_t x = (archive_read_data(CurrentArchive, &Buffer, Buffer.size())) > ARCHIVE_OK)
+        while (const la_ssize_t x = archive_read_data(CurrentArchive, &Buffer, Buffer.size()) != ARCHIVE_OK)
         {
-            if (x < ARCHIVE_OK)
-                spdlog::error("Failed to read data from {}", PathName);
+            // if (x < ARCHIVE_OK)
+            //     spdlog::error("Failed to read data from {}", PathName);
 
             archive_write_data(WritableArchive, Buffer.data(), Buffer.size());
         }

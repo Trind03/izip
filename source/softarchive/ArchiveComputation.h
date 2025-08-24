@@ -8,5 +8,5 @@ namespace SoftArchive
 {
     [[nodiscard]] int Compress(FileRep::IFile *File);
     [[nodiscard]] int Decompress(FileRep::IFile *File);
-    archive_entry* RenderArchiveEntry(FileRep::IFile *File);
+    [[nodiscard]] archive_entry* RenderArchiveEntry(FileRep::IFile *File);
 }

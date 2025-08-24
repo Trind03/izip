@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include <comp_file/IFile.h>
-#include <comp_file/File.h>
+#include <IFile.h>
+#include <File.h>
 #include <fstream>
 #include <array>
 #include <vector>
@@ -9,19 +9,20 @@
 
 namespace
 {
-    class FileInitTest : public ::testing::Test
+    class FileInitTest
+        : public ::testing::Test
     {
     public:
         void SetUp()    override;
         void TearDown() override;
-        std::shared_ptr<CompFile::IFile> File_C   = nullptr;
-        std::unique_ptr<CompFile::IFile> File_CXX = nullptr;
+        std::shared_ptr<FileRep::IFile> File_C   = nullptr;
+        std::unique_ptr<FileRep::IFile> File_CXX = nullptr;
     };
 
     void FileInitTest::SetUp()
     {
-        File_C   = std::make_shared<CompFile::File>(TEST_TARGET_FILE_C);
-        File_CXX = std::make_unique<CompFile::File>(TEST_TARGET_FILE_CXX);
+        File_C   = std::make_shared<FileRep::File>(TEST_TARGET_FILE_C);
+        File_CXX = std::make_unique<FileRep::File>(TEST_TARGET_FILE_CXX);
     }
 
     void FileInitTest::TearDown()

@@ -27,7 +27,6 @@ include_directories(
         ${SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/test
         ${SOURCE_DIR}/comp_help
-        ${SOURCE_DIR}/comp_file
         ${SOURCE_DIR}/FileRep
         ${SOURCE_DIR}/softarchive
 

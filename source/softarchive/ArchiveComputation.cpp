@@ -1,25 +1,37 @@
-// #include <vector>
-// #include <fmt/core.h>
-// #include <spdlog/spdlog.h>
-// #include <archive.h>
-// #include <ArchiveComputation.h>
-// #include <macros/aliases.h>
-// #include <universal/exit_codes.hpp>
+#include <archive_entry.h>
+#include <IFile.h>
+#include <ArchiveComputation.h>
+
+archive_entry*
+SoftArchive::RenderArchiveEntry(FileRep::IFile *File)
+{
+    archive_entry* p_archive_entry  = archive_entry_new();
+    archive_entry_set_pathname(p_archive_entry,File->filename().c_str());
+
+    return p_archive_entry;
+}
 
 
-// int
-// SoftArchive::ArchiveComputation::InteroptHandler(std::string_view msg,std::string_view dir)
-// {
-//     int status = EXIT_SUCCESS;
-//     spdlog::error(msg);
-//
-//     if (rmdir(dir.data()) != 0) {
-//         status = resolve(Universal::EXIT_CODE::REMOVAL_DIR_ERROR);
-//         spdlog::critical(fmt::format("Failed to remove directory {}",dir));
-//         return status;
-//     }
-//     else {
-//         spdlog::info("output directory removed successfully!");
-//     }
-//     return status;
-// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
