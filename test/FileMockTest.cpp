@@ -22,10 +22,10 @@ namespace
             this->_filename = std::move(fileName);
             this->_filesize = 15;
         }
-        MOCK_METHOD(uint32_t,           filesize,(),         (override));
-        MOCK_METHOD(std::string,        filename,(),         (override));
-        MOCK_METHOD(std::string,        filenameOnly,(),     (override));
-        MOCK_METHOD(std::vector<unsigned char>,  readFileContent,(),  (override));
+        MOCK_METHOD(uint32_t,           filesize,(),                 (override));
+        MOCK_METHOD(std::string,        filename,(),                 (override));
+        MOCK_METHOD(std::string,        filenameOnly,(),             (override));
+        MOCK_METHOD(std::vector<unsigned char>,  readFileContent,(), (override));
 
 
         FileMock& operator=(FileMock&)  = delete;
