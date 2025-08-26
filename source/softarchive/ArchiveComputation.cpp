@@ -14,24 +14,3 @@ SoftArchive::RenderArchiveEntry(FileRep::IFile *File)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
