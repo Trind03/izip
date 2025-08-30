@@ -1,5 +1,5 @@
 #pragma once
-#include <../FileRep/IFile.h>
+#include <FileRep/IFile.h>
 #include <cstdint>
 
 namespace FileRep
@@ -7,9 +7,9 @@ namespace FileRep
     class File : public IFile
     {
     public:
-        explicit File() = default;
         explicit File(std::string filename);
-        ~File() override = default;
+        explicit File()     = default;
+        ~File() override    = default;
         std::vector<unsigned char> readFileContent()    override;
         uint32_t        filesize()     	                override;
         std::string     filename()     	                override;

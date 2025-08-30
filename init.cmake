@@ -9,7 +9,7 @@ set(SOURCES
         ${SOURCE_DIR}/App.cpp
         ${SOURCE_DIR}/Appctor.cpp
         ${SOURCE_DIR}/softarchive/ArchiveComputation.cpp
-        ${SOURCE_DIR}/softarchive/FileCompression.cpp
+        ${SOURCE_DIR}/softarchive/ArchiveCompression.cpp
         ${SOURCE_DIR}/softarchive/ArchiveDecompression.cpp
         ${SOURCE_DIR}/FileRep/File.cpp
 )

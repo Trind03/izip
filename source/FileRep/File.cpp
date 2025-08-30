@@ -9,7 +9,14 @@
         this->_filename = std::move(filename);
         try
         {
-            this->_filesize = std::filesystem::file_size(std::filesystem::path(this->_filename));
+            if (!(std::filesystem::is_directory(this->_filename))) {
+                this->_filesize = std::filesystem::file_size(std::filesystem::path(this->_filename));
+                this->Type      = Universal::FileTypeSpec::FOLDER;
+            }
+            else
+            {
+                this->Type = Universal::FileTypeSpec::FILE;
+            }
         }
         catch (const std::filesystem::filesystem_error &error)
         {
