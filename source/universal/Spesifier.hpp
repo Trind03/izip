@@ -14,7 +14,7 @@ namespace Universal
 
     enum class FileTypeSpec
     {
-        FILE    = 0,
-        FOLDER  = 1
+        FILE    = 1511,
+        FOLDER  = 2439
     };
 }
